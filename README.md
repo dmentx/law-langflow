@@ -44,6 +44,7 @@
 
 # 📝 Content
 
+- [](#)
 - [📝 Content](#-content)
 - [📦 Get Started](#-get-started)
 - [🎨 Create Flows](#-create-flows)
@@ -80,7 +81,7 @@ make install_frontend && make build_frontend && make install_backend
 Then, run Langflow with:
 
 ```shell
-python -m langflow run
+poetry run python -m langflow run
 ```
 
 # 🎨 Create Flows

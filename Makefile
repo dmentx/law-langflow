@@ -45,8 +45,8 @@ check_tools:
 # check if Python version is compatible
 check_env: ## check if Python version is compatible
 	@chmod +x scripts/setup/check_env.sh
-	@PYTHON_INSTALLED=$$(scripts/setup/check_env.sh python --version 2>&1 | awk '{print $$2}'); \
-	if ! scripts/setup/check_env.sh python -c "import sys; from packaging.specifiers import SpecifierSet; from packaging.version import Version; sys.exit(not SpecifierSet('$(PYTHON_REQUIRED)').contains(Version('$$PYTHON_INSTALLED')))" 2>/dev/null; then \
+	@PYTHON_INSTALLED=$$(scripts/setup/check_env.sh py --version 2>&1 | awk '{print $$2}'); \
+	if ! scripts/setup/check_env.sh py -c "import sys; from packaging.specifiers import SpecifierSet; from packaging.version import Version; sys.exit(not SpecifierSet('$(PYTHON_REQUIRED)').contains(Version('$$PYTHON_INSTALLED')))" 2>/dev/null; then \
 		echo "$(RED)Error: Python version $$PYTHON_INSTALLED is not compatible with the required version $(PYTHON_REQUIRED). Aborting.$(NC)"; exit 1; \
 	fi
 
@@ -79,7 +79,7 @@ init: check_tools clean_python_cache clean_npm_cache ## initialize the project
 	make install_frontend
 	make build_frontend
 	@echo "$(GREEN)All requirements are installed.$(NC)"
-	python -m langflow run
+	poetry run python -m langflow run
 
 ######################
 # CLEAN PROJECT
