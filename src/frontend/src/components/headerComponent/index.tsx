@@ -139,6 +139,7 @@ export default function Header(): JSX.Element {
 
         {hasStore && (
           <Link to="/store">
+            {/*
             <Button
               className="gap-2"
               variant={location.pathname === "/store" ? "primary" : "secondary"}
@@ -149,6 +150,7 @@ export default function Header(): JSX.Element {
               <IconComponent name="Store" className="h-4 w-4" />
               <div className="flex-1">Store</div>
             </Button>
+                   */}
           </Link>
         )}
       </div>
@@ -164,7 +166,6 @@ export default function Header(): JSX.Element {
             <div className="hidden lg:block">Star</div>
             <div className="header-github-display">{stars ?? 0}</div>
           </a>
-
           <Separator orientation="vertical" />
           <button
             className="extra-side-bar-save-disable"
