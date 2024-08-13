@@ -19,18 +19,18 @@ if [ -z "$1" ]; then
 fi
 
 # Detect Operating System
-OS="$(uname -s)"
-case "$OS" in
-    Darwin)
-        OS="macOS"
-        ;;
-    Linux)
-        OS="Linux"
-        ;;
-    *)
-        exit_with_message "Unsupported operating system. This script supports macOS and Linux."
-        ;;
-esac
+#OS="$(uname -s)"
+#case "$OS" in
+ #   Darwin)
+  #      OS="macOS"
+   #     ;;
+    #Linux)
+     #   OS="Linux"
+      #  ;;
+    #*)
+     #   exit_with_message "Unsupported operating system. This script supports macOS and Linux."
+     #   ;;
+#esac
 
 
 echo "Checking Poetry installation..."
