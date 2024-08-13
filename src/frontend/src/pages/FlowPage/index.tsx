@@ -54,10 +54,10 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
         )}
         <a
           target={"_blank"}
-          href="https://medium.com/logspace/langflow-datastax-better-together-1b7462cebc4d"
+          href="https://www.osborneclarke.com/de/locations/germany"
           className="langflow-page-icon"
         >
-          {version && <div className="mt-1">Langflow 🤝 DataStax</div>}
+          {version && <div className="mt-1">Osborne Clarke ❤️ Langflow </div>}
           <div className={version ? "mt-2" : "mt-1"}>⛓️ v{version}</div>
         </a>
       </div>

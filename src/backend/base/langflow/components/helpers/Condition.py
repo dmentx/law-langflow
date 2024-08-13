@@ -8,28 +8,28 @@ from langflow.template import Output
 
 
 
-class ConditionOption(Enum):
-    EQUALS = "Equals"
-    NOT_EQUALS = "Not Equals"
-    CONTAINS = "Contains"
-    NOT_CONTAINS = "Not Contains"
-    START_WITH = "Start With"
-    END_WITH = "End With"
-    GREATER_THAN = "Greater Than"
-    LESS_THAN = "Less Than"
 
-
-
-class Condition(Component):
+class ConditionComponent(Component):
+    display_name = "Condition"
+    description = "Custom Condition"
+    name = "Condition"
     icon = "split"
-
-    @staticmethod
-    def get_condition_option() -> list:
-        options = []
-        for condition in ConditionOption:
-            options.append(condition)
-        return options
     
+    class ConditionOption(Enum):
+        EQUALS = "Equals"
+        NOT_EQUALS = "Not Equals"
+        CONTAINS = "Contains"
+        NOT_CONTAINS = "Not Contains"
+        START_WITH = "Start With"
+        END_WITH = "End With"
+        GREATER_THAN = "Greater Than"
+        LESS_THAN = "Less Than"
+        
+        @classmethod
+        def list(cls):
+            return list(map(lambda c: c.value, cls))
+
+
     
     
     
@@ -49,13 +49,18 @@ class Condition(Component):
             name="operator",
             display_name="Operator",
             info="The operator to apply for comparing the texts.",
-            options=get_condition_option()
+            options= ConditionOption.list()
         ),
         StrInput(
             name = "custom_prompt_condition",
             display_name= "Custom Prompt Condition",
             info= "Optional: Add custom condition."
-        )
+        ),
+        MessageInput(
+            name="message",
+            display_name="Message",
+            info="The message to pass through either route.",
+        ),
     ]
 
     outputs = [
@@ -70,21 +75,21 @@ class Condition(Component):
     def evaluate_condition(self, input_text: str, text_compare: str, operator: str, custom_prompt_condition: str) -> bool:
         if not custom_prompt_condition:
             match operator:
-                case ConditionOption.EQUALS:
+                case ConditionComponent.ConditionOption.EQUALS:
                     return input_text == text_compare
-                case ConditionOption.NOT_EQUALS:
+                case ConditionComponent.ConditionOption.NOT_EQUALS:
                     return input_text != text_compare
-                case ConditionOption.CONTAINS:
+                case ConditionComponent.ConditionOption.CONTAINS:
                     return text_compare in input_text
-                case ConditionOption.NOT_CONTAINS:
+                case ConditionComponent.ConditionOption.NOT_CONTAINS:
                     return text_compare not in input_text
-                case ConditionOption.START_WITH:
+                case ConditionComponent.ConditionOption.START_WITH:
                     return input_text.startswith(text_compare)
-                case ConditionOption.END_WITH:
+                case ConditionComponent.ConditionOption.END_WITH:
                     return input_text.endswith(text_compare)
-                case ConditionOption.GREATER_THAN:
+                case ConditionComponent.ConditionOption.GREATER_THAN:
                     return self.num_condition(int(input_text), int(text_compare), lambda x, y: x > y)
-                case ConditionOption.LESS_THAN:
+                case ConditionComponent.ConditionOption.LESS_THAN:
                     return self.num_condition(int(input_text), int(text_compare), lambda x, y: x < y)
                 case _:
                     return False
@@ -100,7 +105,7 @@ class Condition(Component):
             return None # type: ignore
         
     def false_response(self) -> Message:
-        result = self.evaluate_condition(self.input_text, self.match_text, self.operator, self.case_sensitive)
+        result = self.evaluate_condition(self.input_text, self.text_compare, self.operator, self.custom_prompt_condition)
         if not result:
             self.status = self.message
             return self.message
