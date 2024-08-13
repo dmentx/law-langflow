@@ -163,7 +163,7 @@ export default function Header(): JSX.Element {
             className="header-github-link gap-2"
           >
             <FaGithub className="h-5 w-5" />
-            <div className="hidden lg:block">Star</div>
+            <div className="hidden lg:block">Stars</div>
             <div className="header-github-display">{stars ?? 0}</div>
           </a>
           <Separator orientation="vertical" />
