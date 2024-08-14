@@ -1,5 +1,19 @@
 
 from enum import Enum
+import getpass
+import logging
+import os
+from unittest import result
+from dotenv import load_dotenv
+from langchain_openai import AzureChatOpenAI
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.output_parsers.boolean import BooleanOutputParser
+from langchain_core.utils.utils import convert_to_secret_str
+from word2num_de import word_to_number
+from word2number import w2n
+from numbers import Number
+from langflow.api.log_router import logs
 from langflow.custom import Component
 from langflow.custom.eval import eval_custom_component_code
 from langflow.inputs import StrInput
@@ -79,35 +93,48 @@ class ConditionComponent(Component):
     def evaluate_condition(self, input_text: str, text_compare: str, operator: str, custom_prompt_condition: str) -> bool:
         if not custom_prompt_condition:
             match operator:
-                case ConditionComponent.ConditionOption.EQUALS:
+                case ConditionComponent.ConditionOption.EQUALS.value:
                     return input_text == text_compare
-                case ConditionComponent.ConditionOption.NOT_EQUALS:
+                case ConditionComponent.ConditionOption.NOT_EQUALS.value:
                     return input_text != text_compare
-                case ConditionComponent.ConditionOption.CONTAINS:
+                case ConditionComponent.ConditionOption.CONTAINS.value:
                     return text_compare in input_text
-                case ConditionComponent.ConditionOption.NOT_CONTAINS:
+                case ConditionComponent.ConditionOption.NOT_CONTAINS.value:
                     return text_compare not in input_text
-                case ConditionComponent.ConditionOption.START_WITH:
+                case ConditionComponent.ConditionOption.START_WITH.value:
                     return input_text.startswith(text_compare)
-                case ConditionComponent.ConditionOption.END_WITH:
+                case ConditionComponent.ConditionOption.END_WITH.value:
                     return input_text.endswith(text_compare)
-                case ConditionComponent.ConditionOption.GREATER_THAN:
+                case ConditionComponent.ConditionOption.GREATER_THAN.value:
                     return self.num_condition(int(input_text), int(text_compare), lambda x, y: x > y)
-                case ConditionComponent.ConditionOption.LESS_THAN:
+                case ConditionComponent.ConditionOption.LESS_THAN.value:
                     return self.num_condition(int(input_text), int(text_compare), lambda x, y: x < y)
                 case _:
                     return False
         else:
-            self.evaluate_custom_prompt_condition(input_text, text_compare, custom_prompt_condition)
-        return False
+            return self.evaluate_custom_prompt_condition(input_text, text_compare, custom_prompt_condition)
     
     def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition: str ) -> bool:
-        return false
+        model = AzureChatOpenAI(
+            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+            azure_deployment=os.environ["AZURE_OPENAI_API_DEPLOYMENT_NAME"],
+            api_version=os.environ["AZURE_OPENAI_API_VERSION"],
+            )
         
+        system_template = "You get two inputs and a condition and check whether the condition is true or false. Answer with YES or NO"
+        human_template = "Input 1: {input_text}. Condition: {custom_prompt_condition}. Input 2: {text_compare}"
+        prompt_template = ChatPromptTemplate.from_messages(
+            [("system", system_template), ("user", human_template)]
+        )
+        parser = BooleanOutputParser()
+        chain = prompt_template | model | parser
+        output = chain.invoke({"input_text":input_text, "custom_prompt_condition": custom_prompt_condition, "text_compare":text_compare})
+        return output
     
     def true_response(self) -> Message:
-        result = self.evaluate_condition(self.input_text, self.text_compare, self.operator, self.custom_prompt_condition ) 
+        result = self.evaluate_condition(self.input_text, self.text_compare, self.operator, self.custom_prompt_condition)
         if result:
+            logging.info(f"{result}")
             self.status = self.message
             return self.message
         else:
@@ -117,10 +144,18 @@ class ConditionComponent(Component):
     def false_response(self) -> Message:
         result = self.evaluate_condition(self.input_text, self.text_compare, self.operator, self.custom_prompt_condition)
         if not result:
+            logging.info(f"{result}")
             self.status = self.message
             return self.message
         else:
             self.stop("false_result")
             return None  # type: ignore
 
-
+    def get_number_string(self, number):
+        number1 = w2n.word_to_num(number)
+        number2 = word_to_number(number)
+        if type(number1) == str:
+            return number2
+        else:
+            return number1
+        
