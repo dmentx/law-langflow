@@ -1,10 +1,12 @@
 
 from enum import Enum
 from langflow.custom import Component
+from langflow.custom.eval import eval_custom_component_code
 from langflow.inputs import StrInput
 from langflow.inputs.inputs import DropdownInput, MessageInput, MessageTextInput
 from langflow.schema.message import Message
 from langflow.template import Output
+from sympy import false
 
 
 
@@ -71,6 +73,8 @@ class ConditionComponent(Component):
     @staticmethod
     def num_condition(a,b, condition):
         return condition(a,b)
+    
+    
 
     def evaluate_condition(self, input_text: str, text_compare: str, operator: str, custom_prompt_condition: str) -> bool:
         if not custom_prompt_condition:
@@ -93,7 +97,13 @@ class ConditionComponent(Component):
                     return self.num_condition(int(input_text), int(text_compare), lambda x, y: x < y)
                 case _:
                     return False
+        else:
+            self.evaluate_custom_prompt_condition(input_text, text_compare, custom_prompt_condition)
         return False
+    
+    def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition: str ) -> bool:
+        return false
+        
     
     def true_response(self) -> Message:
         result = self.evaluate_condition(self.input_text, self.text_compare, self.operator, self.custom_prompt_condition ) 

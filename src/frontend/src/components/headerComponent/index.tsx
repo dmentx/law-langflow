@@ -245,6 +245,7 @@ export default function Header(): JSX.Element {
                   </>
                 )}
                 <DropdownMenuSeparator />
+                {/*
                 <DropdownMenuLabel>Help</DropdownMenuLabel>
                 <DropdownMenuItem
                   className="cursor-pointer gap-2"
@@ -270,6 +271,7 @@ export default function Header(): JSX.Element {
                   />
                   Discussions
                 </DropdownMenuItem>
+                */}
                 {!autoLogin && (
                   <>
                     <DropdownMenuSeparator />

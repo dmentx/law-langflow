@@ -35,7 +35,7 @@ export const GeneralPage = () => {
   const setSuccessData = useAlertStore((state) => state.setSuccessData);
   const setErrorData = useAlertStore((state) => state.setErrorData);
   const { userData, setUserData } = useContext(AuthContext);
-  const hasStore = useStoreStore((state) => state.hasStore);
+  const hasStore =  useStoreStore((state) => state.hasStore);
   const validApiKey = useStoreStore((state) => state.validApiKey);
   const hasApiKey = useStoreStore((state) => state.hasApiKey);
   const loadingApiKey = useStoreStore((state) => state.loadingApiKey);
@@ -64,6 +64,7 @@ export const GeneralPage = () => {
 
   useScrollToElement(scrollId, setCurrentFlowId);
 
+  {/*
   const { mutate } = usePostAddApiKey({
     onSuccess: () => {
       setSuccessData({ title: "API key saved successfully" });
@@ -89,7 +90,7 @@ export const GeneralPage = () => {
       storeApiKey(apikey);
     }
   };
-
+  */}
   function handleInput({
     target: { name, value },
   }: inputHandlerEventType): void {
@@ -117,7 +118,7 @@ export const GeneralPage = () => {
             handlePatchPassword={handlePatchPassword}
           />
         )}
-        {hasStore && (
+               {/* {hasStore && (
           <StoreApiKeyFormComponent
             apikey={apikey}
             handleInput={handleInput}
@@ -126,7 +127,7 @@ export const GeneralPage = () => {
             validApiKey={validApiKey}
             hasApiKey={hasApiKey}
           />
-        )}
+        )} */}
       </div>
     </div>
   );
