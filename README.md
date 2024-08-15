@@ -34,7 +34,27 @@
 10. **Ecosystem integrations** as reusable components for any model, API or database.
 
 
+<<<<<<< HEAD
 ![Integrations](https://github.com/user-attachments/assets/df4a6714-60de-4a8b-aff0-982c5aa467e3)
+=======
+- [](#)
+- [📝 Content](#-content)
+- [📦 Get Started](#-get-started)
+- [🎨 Create Flows](#-create-flows)
+- [Deploy](#deploy)
+  - [DataStax Langflow](#datastax-langflow)
+  - [Deploy Langflow on Hugging Face Spaces](#deploy-langflow-on-hugging-face-spaces)
+  - [Deploy Langflow on Google Cloud Platform](#deploy-langflow-on-google-cloud-platform)
+  - [Deploy on Railway](#deploy-on-railway)
+  - [Deploy on Render](#deploy-on-render)
+  - [Deploy on Kubernetes](#deploy-on-kubernetes)
+- [🖥️ Command Line Interface (CLI)](#️-command-line-interface-cli)
+  - [Usage](#usage)
+    - [Environment Variables](#environment-variables)
+- [👋 Contribute](#-contribute)
+- [🌟 Contributors](#-contributors)
+- [📄 License](#-license)
+>>>>>>> langflow/main
 
 ## ⭐ Stay up-to-date
 
@@ -53,7 +73,13 @@ pip install langflow
 - **Self-managed:** Run Langflow in your environment. [Install Langflow](https://docs.langflow.org/getting-started-installation) to run a local Langflow server, and then use the [Quickstart](https://docs.langflow.org/getting-started-quickstart) guide to create and execute a flow.
 - **Hugging Face:** [Clone the space using this link](https://huggingface.co/spaces/Langflow/Langflow?duplicate=true) to create a Langflow workspace.
 
+<<<<<<< HEAD
 [![Getting Started](https://github.com/user-attachments/assets/f1adfbe7-3c35-43a4-b265-661f3d4f875f)](https://www.youtube.com/watch?v=kinngWhaUKM)
+=======
+```shell
+poetry run python -m langflow run
+```
+>>>>>>> langflow/main
 
 ## 👋 Contribute
 

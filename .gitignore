@@ -273,3 +273,6 @@ src/frontend/temp
 *-shm
 *-wal
 .history
+
+#py env
+langpyenv/
