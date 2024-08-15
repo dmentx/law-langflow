@@ -1,17 +1,13 @@
 
 from enum import Enum
-import getpass
 import logging
 import os
-from unittest import result
 from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.output_parsers.boolean import BooleanOutputParser
-from langchain_core.utils.utils import convert_to_secret_str
+from word2number.w2n import word_to_num
 from word2num_de import word_to_number
-from word2number import w2n
 from numbers import Number
 from langflow.api.log_router import logs
 from langflow.custom import Component
@@ -106,9 +102,9 @@ class ConditionComponent(Component):
                 case ConditionComponent.ConditionOption.END_WITH.value:
                     return input_text.endswith(text_compare)
                 case ConditionComponent.ConditionOption.GREATER_THAN.value:
-                    return self.num_condition(int(input_text), int(text_compare), lambda x, y: x > y)
+                    return self.num_condition(self.get_number_string(input_text),self.get_number_string(text_compare), lambda x, y: x > y)
                 case ConditionComponent.ConditionOption.LESS_THAN.value:
-                    return self.num_condition(int(input_text), int(text_compare), lambda x, y: x < y)
+                    return self.num_condition(self.get_number_string(input_text),self.get_number_string(text_compare), lambda x, y: x < y)
                 case _:
                     return False
         else:
@@ -152,10 +148,10 @@ class ConditionComponent(Component):
             return None  # type: ignore
 
     def get_number_string(self, number):
-        number1 = w2n.word_to_num(number)
-        number2 = word_to_number(number)
-        if type(number1) == str:
-            return number2
-        else:
-            return number1
-        
+        try:
+            return word_to_num(number)
+        except ValueError:
+            try:
+                return word_to_number(number)
+            except ValueError:
+                return number
