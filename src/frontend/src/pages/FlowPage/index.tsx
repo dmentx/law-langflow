@@ -104,16 +104,12 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
         )}
         <a
           target={"_blank"}
-          href="https://www.osborneclarke.com/de/locations/germany"
+          href="https://medium.com/logspace/langflow-datastax-better-together-1b7462cebc4d"
           className="langflow-page-icon"
         >
-<<<<<<< HEAD
           {FeatureFlags.ENABLE_BRANDING && version && (
-            <div className="mt-1">Langflow 🤝 DataStax</div>
+            <div className="mt-1">Osborne Clarke ❤️ Langflow</div>
           )}
-=======
-          {version && <div className="mt-1">Osborne Clarke ❤️ Langflow </div>}
->>>>>>> langflow/main
           <div className={version ? "mt-2" : "mt-1"}>⛓️ v{version}</div>
         </a>
       </div>

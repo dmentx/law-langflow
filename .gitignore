@@ -9,6 +9,8 @@ yarn-error.log*
 lerna-debug.log*
 qdrant_storage
 
+pyenv/
+
 # Mac
 .DS_Store
 

@@ -122,7 +122,6 @@ export default function Header(): JSX.Element {
 
         {hasStore && (
           <Link to="/store">
-            {/*
             <Button
               className="gap-2"
               variant={location.pathname === "/store" ? "primary" : "secondary"}
@@ -132,13 +131,11 @@ export default function Header(): JSX.Element {
               <IconComponent name="Store" className="h-4 w-4" />
               <div className="flex-1">Store</div>
             </Button>
-                   */}
           </Link>
         )}
       </div>
       <div className="header-end-division">
         <div className="header-end-display">
-<<<<<<< HEAD
           {FeatureFlags.ENABLE_SOCIAL_LINKS && (
             <>
               <a
@@ -191,31 +188,6 @@ export default function Header(): JSX.Element {
               )}
             </button>
           )}
-=======
-          <a
-            href="https://github.com/dmentx/langflow"
-            target="_blank"
-            rel="noreferrer"
-            className="header-github-link gap-2"
-          >
-            <FaGithub className="h-5 w-5" />
-            <div className="hidden lg:block">Stars</div>
-            <div className="header-github-display">{stars ?? 0}</div>
-          </a>
-          <Separator orientation="vertical" />
-          <button
-            className="extra-side-bar-save-disable"
-            onClick={() => {
-              setDark(!dark);
-            }}
-          >
-            {dark ? (
-              <IconComponent name="SunIcon" className="side-bar-button-size" />
-            ) : (
-              <IconComponent name="MoonIcon" className="side-bar-button-size" />
-            )}
-          </button>
->>>>>>> langflow/main
           <AlertDropdown>
             <div className="extra-side-bar-save-disable relative">
               {notificationCenter && (
@@ -289,7 +261,6 @@ export default function Header(): JSX.Element {
                   </>
                 )}
                 <DropdownMenuSeparator />
-                {/*
                 <DropdownMenuLabel>Help</DropdownMenuLabel>
                 <DropdownMenuItem
                   className="cursor-pointer gap-2"
@@ -315,7 +286,6 @@ export default function Header(): JSX.Element {
                   />
                   Discussions
                 </DropdownMenuItem>
-                */}
                 {!autoLogin && (
                   <>
                     <DropdownMenuSeparator />
