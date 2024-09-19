@@ -1,8 +1,10 @@
 from langchain_openai import AzureChatOpenAI
 from langflow.components.inputs import ChatInput
+from langflow.components.inputs.TextInput import TextInputComponent
 from langflow.components.outputs import ChatOutput
 from langflow.custom.custom_component.component import Component
 from langflow.field_typing.constants import LanguageModel
+from langflow.inputs.input_mixin import FieldTypes
 from langflow.inputs.inputs import DropdownInput, HandleInput, MessageTextInput, StrInput
 from langflow.template.field.base import Input, Output
 from langchain_core.prompts import ChatPromptTemplate
@@ -17,12 +19,12 @@ class IteratorComponent(Component):
     name = "IteratorComponent"
     
     inputs = [
-        StrInput(
+    
+        TextInputComponent(
             name="input_list",
             display_name="Input List",
             required=True,
-            is_list=True
-        ),
+            ),
         HandleInput(
             name="llm",
             display_name="Language Model",
@@ -33,7 +35,7 @@ class IteratorComponent(Component):
             name="prompt",
             display_name="Prompt",
             required=True,
-            info="Write your prompt with variable {{yourInput}}. This Component will run this prompt on every entry on your input list."
+            info="Write your prompt with variable {yourInput}. This Component will run this prompt on every entry on your input list."
         )
     ]
     outputs = [
