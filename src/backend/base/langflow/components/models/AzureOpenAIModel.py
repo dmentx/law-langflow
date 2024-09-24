@@ -14,6 +14,7 @@ class AzureChatOpenAIComponent(LCModelComponent):
     name = "AzureOpenAIModel"
 
     AZURE_OPENAI_API_VERSIONS = [
+        "2024-02-15-preview",
         "2023-03-15-preview",
         "2023-05-15",
         "2023-06-01-preview",

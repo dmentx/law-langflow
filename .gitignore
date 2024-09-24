@@ -9,6 +9,8 @@ yarn-error.log*
 lerna-debug.log*
 qdrant_storage
 
+pyenv/
+
 # Mac
 .DS_Store
 
@@ -273,3 +275,6 @@ src/frontend/temp
 *-shm
 *-wal
 .history
+
+#py env
+langpyenv/

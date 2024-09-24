@@ -18,4 +18,8 @@ elif [ -f "pyvenv.cfg" ]; then
     exec "$@"
 else
     exec "$@"
+<<<<<<< HEAD
 fi
+=======
+fi
+>>>>>>> langflow/main
