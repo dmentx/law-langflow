@@ -11,6 +11,7 @@ from pydantic import BaseModel, model_serializer, model_validator
 from langflow.utils.constants import MESSAGE_SENDER_AI, MESSAGE_SENDER_USER
 
 
+
 class Data(BaseModel):
     """
     Represents a record with text and optional data.
