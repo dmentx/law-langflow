@@ -1,16 +1,16 @@
 import useHandleNodeClass from "@/CustomNodes/hooks/use-handle-node-class";
-import { ParameterRenderComponent } from "@/components/parameterRenderComponent";
 import { usePostTemplateValue } from "@/controllers/API/queries/nodes/use-post-template-value";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import {
+  CustomParameterComponent,
+  getCustomParameterTitle,
+} from "@/customization/components/custom-parameter";
+import { useEffect, useRef } from "react";
 import { default as IconComponent } from "../../../../components/genericIconComponent";
 import ShadTooltip from "../../../../components/shadTooltipComponent";
 import { LANGFLOW_SUPPORTED_TYPES } from "../../../../constants/constants";
 import useFlowStore from "../../../../stores/flowStore";
 import { useTypesStore } from "../../../../stores/typesStore";
-import {
-  NodeInputFieldComponentType,
-  ParameterComponentType,
-} from "../../../../types/components";
+import { NodeInputFieldComponentType } from "../../../../types/components";
 import { scapedJSONStringfy } from "../../../../utils/reactflowUtils";
 import useFetchDataOnMount from "../../../hooks/use-fetch-data-on-mount";
 import useHandleOnNewValue from "../../../hooks/use-handle-new-value";
@@ -81,6 +81,7 @@ export default function NodeInputField({
       setFilterEdge={setFilterEdge}
       showNode={showNode}
       testIdComplement={`${data?.type?.toLowerCase()}-${showNode ? "shownode" : "noshownode"}`}
+      nodeId={data.id}
     />
   );
 
@@ -94,22 +95,33 @@ export default function NodeInputField({
     <div
       ref={ref}
       className={
-        "relative mt-1 flex w-full flex-wrap items-center justify-between bg-muted px-5 py-2" +
+        "relative mt-1 flex min-h-10 w-full flex-wrap items-center justify-between bg-muted px-5 py-2" +
         ((name === "code" && type === "code") ||
         (name.includes("code") && proxy)
           ? " hidden"
           : "")
       }
     >
-      <>
+      {displayHandle && Handle}
+      <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center truncate text-sm">
           {proxy ? (
             <ShadTooltip content={<span>{proxy.id}</span>}>
-              {<span>{title}</span>}
+              {
+                <span>
+                  {getCustomParameterTitle({ title, nodeId: data.id })}
+                </span>
+              }
             </ShadTooltip>
           ) : (
             <div className="flex gap-2">
-              <span>{<span>{title}</span>}</span>
+              <span>
+                {
+                  <span>
+                    {getCustomParameterTitle({ title, nodeId: data.id })}
+                  </span>
+                }
+              </span>
             </div>
           )}
           <span className={(required ? "ml-2 " : "") + "text-status-red"}>
@@ -130,23 +142,20 @@ export default function NodeInputField({
           </div>
         </div>
 
-        {displayHandle && Handle}
         {data.node?.template[name] !== undefined && (
-          <div className="mt-2 w-full">
-            <ParameterRenderComponent
-              handleOnNewValue={handleOnNewValue}
-              name={name}
-              nodeId={data.id}
-              templateData={data.node?.template[name]!}
-              templateValue={data.node?.template[name].value ?? ""}
-              editNode={false}
-              handleNodeClass={handleNodeClass}
-              nodeClass={data.node!}
-              disabled={disabled}
-            />
-          </div>
+          <CustomParameterComponent
+            handleOnNewValue={handleOnNewValue}
+            name={name}
+            nodeId={data.id}
+            templateData={data.node?.template[name]!}
+            templateValue={data.node?.template[name].value ?? ""}
+            editNode={false}
+            handleNodeClass={handleNodeClass}
+            nodeClass={data.node!}
+            disabled={disabled}
+          />
         )}
-      </>
+      </div>
     </div>
   );
 }

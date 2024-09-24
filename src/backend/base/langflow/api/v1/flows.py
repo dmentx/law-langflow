@@ -3,7 +3,6 @@ import json
 import re
 import zipfile
 from datetime import datetime, timezone
-from typing import List
 from uuid import UUID
 
 import orjson
@@ -13,12 +12,12 @@ from fastapi.responses import StreamingResponse
 from loguru import logger
 from sqlmodel import Session, and_, col, select
 
-from langflow.api.utils import remove_api_keys, validate_is_component
+from langflow.api.utils import cascade_delete_flow, remove_api_keys, validate_is_component
 from langflow.api.v1.schemas import FlowListCreate
 from langflow.initial_setup.setup import STARTER_FOLDER_NAME
 from langflow.services.auth.utils import get_current_active_user
 from langflow.services.database.models.flow import Flow, FlowCreate, FlowRead, FlowUpdate
-from langflow.services.database.models.flow.utils import delete_flow_by_id, get_webhook_component_in_flow
+from langflow.services.database.models.flow.utils import get_webhook_component_in_flow
 from langflow.services.database.models.folder.constants import DEFAULT_FOLDER_NAME
 from langflow.services.database.models.folder.model import Folder
 from langflow.services.database.models.transactions.crud import get_transactions_by_flow_id
@@ -252,7 +251,7 @@ def update_flow(
 
 
 @router.delete("/{flow_id}", status_code=200)
-def delete_flow(
+async def delete_flow(
     *,
     session: Session = Depends(get_session),
     flow_id: UUID,
@@ -268,12 +267,12 @@ def delete_flow(
     )
     if not flow:
         raise HTTPException(status_code=404, detail="Flow not found")
-    delete_flow_by_id(str(flow_id), session)
+    await cascade_delete_flow(session, flow)
     session.commit()
     return {"message": "Flow deleted successfully"}
 
 
-@router.post("/batch/", response_model=List[FlowRead], status_code=201)
+@router.post("/batch/", response_model=list[FlowRead], status_code=201)
 def create_flows(
     *,
     session: Session = Depends(get_session),
@@ -293,7 +292,7 @@ def create_flows(
     return db_flows
 
 
-@router.post("/upload/", response_model=List[FlowRead], status_code=201)
+@router.post("/upload/", response_model=list[FlowRead], status_code=201)
 async def upload_file(
     *,
     session: Session = Depends(get_session),
@@ -322,7 +321,7 @@ async def upload_file(
 
 @router.delete("/")
 async def delete_multiple_flows(
-    flow_ids: List[UUID], user: User = Depends(get_current_active_user), db: Session = Depends(get_session)
+    flow_ids: list[UUID], user: User = Depends(get_current_active_user), db: Session = Depends(get_session)
 ):
     """
     Delete multiple flows by their IDs.
@@ -357,7 +356,7 @@ async def delete_multiple_flows(
 
 @router.post("/download/", status_code=200)
 async def download_multiple_file(
-    flow_ids: List[UUID],
+    flow_ids: list[UUID],
     user: User = Depends(get_current_active_user),
     db: Session = Depends(get_session),
 ):

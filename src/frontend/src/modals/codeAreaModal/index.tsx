@@ -4,6 +4,8 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-twilight";
 // import "ace-builds/webpack-resolver";
+import { usePostValidateCode } from "@/controllers/API/queries/nodes/use-post-validate-code";
+import { usePostValidateComponentCode } from "@/controllers/API/queries/nodes/use-post-validate-component-code";
 import { useEffect, useRef, useState } from "react";
 import AceEditor from "react-ace";
 import ReactAce from "react-ace/lib/ace";
@@ -21,7 +23,7 @@ import {
   CODE_PROMPT_DIALOG_SUBTITLE,
   EDIT_CODE_TITLE,
 } from "../../constants/constants";
-import { postCustomComponent, postValidateCode } from "../../controllers/API";
+import { postCustomComponent } from "../../controllers/API";
 import useAlertStore from "../../stores/alertStore";
 import { useDarkStore } from "../../stores/darkStore";
 import { CodeErrorDataTypeAPI } from "../../types/api";
@@ -51,9 +53,12 @@ export default function CodeAreaModal({
   const setErrorData = useAlertStore((state) => state.setErrorData);
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const codeRef = useRef<ReactAce | null>(null);
+  const { mutate, isPending } = usePostValidateCode();
   const [error, setError] = useState<{
     detail: CodeErrorDataTypeAPI;
   } | null>(null);
+
+  const { mutate: validateComponentCode } = usePostValidateComponentCode();
 
   useEffect(() => {
     // if nodeClass.template has more fields other than code and dynamic is true
@@ -64,59 +69,67 @@ export default function CodeAreaModal({
   }, []);
 
   function processNonDynamicField() {
-    postValidateCode(code)
-      .then((apiReturn) => {
-        if (apiReturn.data) {
-          let importsErrors = apiReturn.data.imports.errors;
-          let funcErrors = apiReturn.data.function.errors;
-          if (funcErrors.length === 0 && importsErrors.length === 0) {
-            setSuccessData({
-              title: CODE_SUCCESS_ALERT,
-            });
-            setOpen(false);
-            setValue(code);
-            // setValue(code);
+    mutate(
+      { code },
+      {
+        onSuccess: (apiReturn) => {
+          if (apiReturn) {
+            let importsErrors = apiReturn.imports.errors;
+            let funcErrors = apiReturn.function.errors;
+            if (funcErrors.length === 0 && importsErrors.length === 0) {
+              setSuccessData({
+                title: CODE_SUCCESS_ALERT,
+              });
+              setOpen(false);
+              setValue(code);
+              // setValue(code);
+            } else {
+              if (funcErrors.length !== 0) {
+                setErrorData({
+                  title: FUNC_ERROR_ALERT,
+                  list: funcErrors,
+                });
+              }
+              if (importsErrors.length !== 0) {
+                setErrorData({
+                  title: IMPORT_ERROR_ALERT,
+                  list: importsErrors,
+                });
+              }
+            }
           } else {
-            if (funcErrors.length !== 0) {
-              setErrorData({
-                title: FUNC_ERROR_ALERT,
-                list: funcErrors,
-              });
-            }
-            if (importsErrors.length !== 0) {
-              setErrorData({
-                title: IMPORT_ERROR_ALERT,
-                list: importsErrors,
-              });
-            }
+            setErrorData({
+              title: BUG_ALERT,
+            });
           }
-        } else {
+        },
+        onError: (error) => {
           setErrorData({
-            title: BUG_ALERT,
+            title: CODE_ERROR_ALERT,
+            list: [error.response.data.detail],
           });
-        }
-      })
-      .catch((_) => {
-        setErrorData({
-          title: CODE_ERROR_ALERT,
-        });
-      });
+        },
+      },
+    );
   }
 
   function processDynamicField() {
-    postCustomComponent(code, nodeClass!)
-      .then((apiReturn) => {
-        const { data, type } = apiReturn.data;
-        if (data && type) {
-          setValue(code);
-          setNodeClass(data, type);
-          setError({ detail: { error: undefined, traceback: undefined } });
-          setOpen(false);
-        }
-      })
-      .catch((err) => {
-        setError(err.response.data);
-      });
+    validateComponentCode(
+      { code, frontend_node: nodeClass! },
+      {
+        onSuccess: ({ data, type }) => {
+          if (data && type) {
+            setValue(code);
+            setNodeClass(data, type);
+            setError({ detail: { error: undefined, traceback: undefined } });
+            setOpen(false);
+          }
+        },
+        onError: (error) => {
+          setError(error.response.data);
+        },
+      },
+    );
   }
 
   function processCode() {
@@ -172,6 +185,7 @@ export default function CodeAreaModal({
       }}
       open={open}
       setOpen={setOpen}
+      size="x-large"
     >
       <BaseModal.Trigger>{children}</BaseModal.Trigger>
       <BaseModal.Header description={CODE_PROMPT_DIALOG_SUBTITLE}>
@@ -244,7 +258,9 @@ export default function CodeAreaModal({
           </div>
         </div>
         <ConfirmationModal
-          onClose={setOpenConfirmation}
+          onClose={() => {
+            setOpenConfirmation(false);
+          }}
           onEscapeKeyDown={(e) => {
             e.stopPropagation();
             setOpenConfirmation(false);

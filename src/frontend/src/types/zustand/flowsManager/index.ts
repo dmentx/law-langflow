@@ -12,7 +12,6 @@ export type FlowsManagerStoreType = {
   setSaveLoading: (saveLoading: boolean) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
-  refreshFlows: () => Promise<void>;
   undo: () => void;
   redo: () => void;
   takeSnapshot: () => void;
@@ -23,6 +22,10 @@ export type FlowsManagerStoreType = {
   searchFlowsComponents: string;
   selectedFlowsComponentsCards: string[];
   setSelectedFlowsComponentsCards: (selected: string[]) => void;
+  autoSavingInterval: number;
+  setAutoSavingInterval: (autoSavingInterval: number) => void;
+  healthCheckMaxRetries: number;
+  setHealthCheckMaxRetries: (healthCheckMaxRetries: number) => void;
 };
 
 export type UseUndoRedoOptions = {

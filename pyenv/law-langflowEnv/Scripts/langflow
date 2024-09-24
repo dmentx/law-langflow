@@ -1,0 +1,6 @@
+#!C:\Users\daniel.mentjukov\Downloads\law-langflow\pyenv\law-langflowEnv\Scripts\python.exe
+import sys
+from langflow.__main__ import main
+
+if __name__ == '__main__':
+    sys.exit(main())
