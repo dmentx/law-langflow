@@ -1,13 +1,14 @@
 import asyncio
 import json
-from typing import TYPE_CHECKING, Any, AsyncIterator, Dict, Generator, Iterator, List, cast
+from typing import TYPE_CHECKING, Any, cast
+from collections.abc import AsyncIterator, Generator, Iterator
 
 import yaml
 from langchain_core.messages import AIMessage, AIMessageChunk
 from loguru import logger
 
 from langflow.graph.schema import CHAT_COMPONENTS, RECORDS_COMPONENTS, InterfaceComponentTypes, ResultData
-from langflow.graph.utils import UnbuiltObject, log_transaction, log_vertex_build, serialize_field
+from langflow.graph.utils import UnbuiltObject, log_transaction, log_vertex_build, rewrite_file_path, serialize_field
 from langflow.graph.vertex.base import Vertex
 from langflow.graph.vertex.exceptions import NoComponentInstance
 from langflow.graph.vertex.schema import NodeData
@@ -101,8 +102,6 @@ class ComponentVertex(Vertex):
                 )
             for edge in self.get_edge_with_target(requester.id):
                 # We need to check if the edge is a normal edge
-                # or a contract edge
-
                 if edge.is_cycle and edge.target_param:
                     return requester.get_value_from_template_dict(edge.target_param)
 
@@ -141,7 +140,7 @@ class ComponentVertex(Vertex):
             asyncio.create_task(log_transaction(source=self, target=requester, flow_id=str(flow_id), status="success"))
         return result
 
-    def extract_messages_from_artifacts(self, artifacts: Dict[str, Any]) -> List[dict]:
+    def extract_messages_from_artifacts(self, artifacts: dict[str, Any]) -> list[dict]:
         """
         Extracts messages from the artifacts.
 
@@ -200,6 +199,7 @@ class ComponentVertex(Vertex):
 class InterfaceVertex(ComponentVertex):
     def __init__(self, data: NodeData, graph):
         super().__init__(data, graph=graph)
+        self._added_message = None
         self.steps = [self._build, self._run]
 
     def build_stream_url(self):
@@ -256,6 +256,10 @@ class InterfaceVertex(ComponentVertex):
         sender = self.params.get("sender", None)
         sender_name = self.params.get("sender_name", None)
         message = self.params.get(INPUT_FIELD_NAME, None)
+        files = self.params.get("files", [])
+        treat_file_path = files is not None and not isinstance(files, list) and isinstance(files, str)
+        if treat_file_path:
+            self.params["files"] = rewrite_file_path(files)
         files = [{"path": file} if isinstance(file, str) else file for file in self.params.get("files", [])]
         if isinstance(message, str):
             message = unescape_string(message)
@@ -382,6 +386,12 @@ class InterfaceVertex(ComponentVertex):
                 yield message
                 complete_message += message
 
+        files = self.params.get("files", [])
+
+        treat_file_path = files is not None and not isinstance(files, list) and isinstance(files, str)
+        if treat_file_path:
+            self.params["files"] = rewrite_file_path(files)
+
         if hasattr(self.params.get("sender_name"), "get_text"):
             sender_name = self.params.get("sender_name").get_text()
         else:
@@ -454,7 +464,7 @@ class StateVertex(ComponentVertex):
         self.is_state = False
 
     @property
-    def successors_ids(self) -> List[str]:
+    def successors_ids(self) -> list[str]:
         if self._successors_ids is None:
             self.is_state = False
             return super().successors_ids

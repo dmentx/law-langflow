@@ -1,5 +1,6 @@
 import warnings
-from typing import Any, AsyncIterator, Iterator, Optional, Union, get_args
+from typing import Any, Union, get_args
+from collections.abc import AsyncIterator, Iterator
 
 from pydantic import Field, field_validator
 
@@ -21,6 +22,7 @@ from .input_mixin import (
     RangeMixin,
     SerializableFieldTypes,
     TableMixin,
+    LinkMixin,
 )
 
 
@@ -71,6 +73,10 @@ class DataInput(HandleInput, InputTraceMixin, ListableInputMixin):
 
 class PromptInput(BaseInputMixin, ListableInputMixin, InputTraceMixin):
     field_type: SerializableFieldTypes = FieldTypes.PROMPT
+
+
+class CodeInput(BaseInputMixin, ListableInputMixin, InputTraceMixin):
+    field_type: SerializableFieldTypes = FieldTypes.CODE
 
 
 # Applying mixins to a specific input type
@@ -272,6 +278,8 @@ class SecretStrInput(BaseInputMixin, DatabaseLoadMixin):
                 )
         elif isinstance(v, (AsyncIterator, Iterator)):
             value = v
+        elif v is None:
+            value = None
         else:
             raise ValueError(f"Invalid value type `{type(v)}` for input `{_info.data['name']}`")
         return value
@@ -379,7 +387,7 @@ class NestedDictInput(BaseInputMixin, ListableInputMixin, MetadataTraceMixin, In
     """
 
     field_type: SerializableFieldTypes = FieldTypes.NESTED_DICT
-    value: Optional[dict | Data] = {}
+    value: dict | Data | None = {}
 
 
 class DictInput(BaseInputMixin, ListableInputMixin, InputTraceMixin):
@@ -395,7 +403,7 @@ class DictInput(BaseInputMixin, ListableInputMixin, InputTraceMixin):
     """
 
     field_type: SerializableFieldTypes = FieldTypes.DICT
-    value: Optional[dict] = {}
+    value: dict | None = {}
 
 
 class DropdownInput(BaseInputMixin, DropDownMixin, MetadataTraceMixin):
@@ -460,14 +468,17 @@ class FileInput(BaseInputMixin, ListableInputMixin, FileMixin, MetadataTraceMixi
     field_type: SerializableFieldTypes = FieldTypes.FILE
 
 
+class LinkInput(BaseInputMixin, LinkMixin):
+    field_type: SerializableFieldTypes = FieldTypes.LINK
+
+
 DEFAULT_PROMPT_INTUT_TYPES = ["Message", "Text"]
 
 
 class DefaultPromptField(Input):
     name: str
-    display_name: Optional[str] = None
+    display_name: str | None = None
     field_type: str = "str"
-
     advanced: bool = False
     multiline: bool = True
     input_types: list[str] = DEFAULT_PROMPT_INTUT_TYPES
@@ -490,11 +501,13 @@ InputTypes = Union[
     MultilineSecretInput,
     NestedDictInput,
     PromptInput,
+    CodeInput,
     SecretStrInput,
     StrInput,
     MessageTextInput,
     MessageInput,
     TableInput,
+    LinkInput,
 ]
 
 InputTypesMap: dict[str, type[InputTypes]] = {t.__name__: t for t in get_args(InputTypes)}
