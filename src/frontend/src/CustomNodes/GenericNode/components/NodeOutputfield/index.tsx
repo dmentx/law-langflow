@@ -1,18 +1,12 @@
 import { cloneDeep } from "lodash";
-import { useEffect, useRef, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import { useEffect, useRef } from "react";
 import { useUpdateNodeInternals } from "reactflow";
 import { default as IconComponent } from "../../../../components/genericIconComponent";
 import ShadTooltip from "../../../../components/shadTooltipComponent";
 import { Button } from "../../../../components/ui/button";
-import { Case } from "../../../../shared/components/caseComponent";
 import useFlowStore from "../../../../stores/flowStore";
-import { useShortcutsStore } from "../../../../stores/shortcuts";
 import { useTypesStore } from "../../../../stores/typesStore";
-import {
-  NodeOutputFieldComponentType,
-  ParameterComponentType,
-} from "../../../../types/components";
+import { NodeOutputFieldComponentType } from "../../../../types/components";
 import {
   getGroupOutputNodeId,
   scapedJSONStringfy,
@@ -20,7 +14,6 @@ import {
 import {
   classNames,
   cn,
-  isThereModal,
   logHasMessage,
   logTypeIsError,
   logTypeIsUnknown,
@@ -49,7 +42,6 @@ export default function NodeOutputField({
   const myData = useTypesStore((state) => state.data);
   const updateNodeInternals = useUpdateNodeInternals();
   const setFilterEdge = useFlowStore((state) => state.setFilterEdge);
-  const [openOutputModal, setOpenOutputModal] = useState(false);
   const flowPool = useFlowStore((state) => state.flowPool);
 
   let flowPoolId = data.id;
@@ -80,17 +72,6 @@ export default function NodeOutputField({
     internalOutputName,
   );
   const errorOutput = logTypeIsError(flowPoolNode?.data, internalOutputName);
-
-  const preventDefault = true;
-
-  function handleOutputWShortcut() {
-    if (!displayOutputPreview || unknownOutput) return;
-    if (selected) {
-      setOpenOutputModal((state) => !state);
-    }
-  }
-  const output = useShortcutsStore((state) => state.output);
-  useHotkeys(output, handleOutputWShortcut, { preventDefault });
 
   let disabledOutput =
     edges.some((edge) => edge.sourceHandle === scapedJSONStringfy(id)) ?? false;
@@ -129,6 +110,7 @@ export default function NodeOutputField({
       id={id}
       title={title}
       edges={edges}
+      nodeId={data.id}
       myData={myData}
       colors={colors}
       setFilterEdge={setFilterEdge}
@@ -146,7 +128,7 @@ export default function NodeOutputField({
     >
       <>
         <div className="flex w-full items-center justify-end truncate text-sm">
-          <div className="flex-1">
+          <div className="flex flex-1">
             <Button
               disabled={disabledOutput}
               unstyled
@@ -169,7 +151,7 @@ export default function NodeOutputField({
               <IconComponent className="h-5 w-5 text-ice" name={"Snowflake"} />
             </div>
           )}
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <span className={data.node?.frozen ? "text-ice" : ""}>
               <OutputComponent
                 proxy={outputProxy}
@@ -194,36 +176,38 @@ export default function NodeOutputField({
                   : "Please build the component first"
               }
             >
-              <OutputModal
-                disabled={!displayOutputPreview || unknownOutput}
-                nodeId={flowPoolId}
-                outputName={internalOutputName}
-              >
-                <Button
-                  unstyled
+              <div className="flex">
+                <OutputModal
                   disabled={!displayOutputPreview || unknownOutput}
-                  data-testid={`output-inspection-${title.toLowerCase()}`}
+                  nodeId={flowPoolId}
+                  outputName={internalOutputName}
                 >
-                  {errorOutput ? (
-                    <IconComponent
-                      className={classNames(
-                        "h-5 w-5 rounded-md text-status-red",
-                      )}
-                      name={"X"}
-                    />
-                  ) : (
-                    <IconComponent
-                      className={classNames(
-                        "h-5 w-5 rounded-md",
-                        displayOutputPreview && !unknownOutput
-                          ? "hover:text-medium-indigo"
-                          : "cursor-not-allowed text-muted-foreground",
-                      )}
-                      name={"ScanEye"}
-                    />
-                  )}
-                </Button>
-              </OutputModal>
+                  <Button
+                    unstyled
+                    disabled={!displayOutputPreview || unknownOutput}
+                    data-testid={`output-inspection-${title.toLowerCase()}`}
+                  >
+                    {errorOutput ? (
+                      <IconComponent
+                        className={classNames(
+                          "h-5 w-5 rounded-md text-status-red",
+                        )}
+                        name={"X"}
+                      />
+                    ) : (
+                      <IconComponent
+                        className={classNames(
+                          "h-5 w-5 rounded-md",
+                          displayOutputPreview && !unknownOutput
+                            ? "hover:text-medium-indigo"
+                            : "cursor-not-allowed text-muted-foreground",
+                        )}
+                        name={"ScanEye"}
+                      />
+                    )}
+                  </Button>
+                </OutputModal>
+              </div>
             </ShadTooltip>
           </div>
         </div>

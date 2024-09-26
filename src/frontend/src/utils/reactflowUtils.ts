@@ -215,6 +215,9 @@ export function isValidConnection(
   nodes: Node[],
   edges: Edge[],
 ) {
+  if (source === target) {
+    return false;
+  }
   const targetHandleObject: targetHandleType = scapeJSONParse(targetHandle!);
   const sourceHandleObject: sourceHandleType = scapeJSONParse(sourceHandle!);
   if (
@@ -789,7 +792,10 @@ export function checkEdgeWithoutEscapedHandleIds(edges: Edge[]): boolean {
 }
 
 export function checkOldNodesOutput(nodes: NodeType[]): boolean {
-  return nodes.some((node) => !node.data.node?.outputs);
+  return nodes.some(
+    (node) =>
+      node.data.node?.outputs === undefined && node.type === "genericNode",
+  );
 }
 
 export function customStringify(obj: any): string {
