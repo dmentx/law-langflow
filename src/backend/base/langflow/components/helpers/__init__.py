@@ -1,6 +1,4 @@
 from .CombineText import CombineTextComponent
-from .CustomComponent import CustomComponent
-from .FilterData import FilterDataComponent
 from .IDGenerator import IDGeneratorComponent
 from .Memory import MemoryComponent
 from .MergeData import MergeDataComponent
@@ -14,8 +12,6 @@ from .Condition import ConditionComponent
 __all__ = [
     "CreateListComponent",
     "CombineTextComponent",
-    "CustomComponent",
-    "FilterDataComponent",
     "IDGeneratorComponent",
     "MemoryComponent",
     "MergeDataComponent",

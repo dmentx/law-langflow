@@ -63,7 +63,7 @@ help: ## show this help message
 
 install_backend: ## install the backend dependencies
 	@echo 'Installing backend dependencies'
-	@poetry install > /dev/null 2>&1
+	@poetry install 
 
 install_frontend: ## install the frontend dependencies
 	@echo 'Installing frontend dependencies'

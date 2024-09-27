@@ -1,4 +1,4 @@
-from typing import List
+""" from typing import List
 
 from langflow.custom import Component
 from langflow.inputs import StrInput, SecretStrInput, DefaultPromptField
@@ -107,3 +107,4 @@ class LangChainHubPromptComponent(Component):
         prompt_data = langchain.hub.pull(self.langchain_hub_prompt, api_key=self.langchain_api_key)
 
         return prompt_data
+ """
