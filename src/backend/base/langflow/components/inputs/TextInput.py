@@ -1,6 +1,5 @@
 from langflow.base.io.text import TextComponent
-from langflow.inputs.inputs import MultilineInput
-from langflow.io import MessageTextInput, Output
+from langflow.io import MultilineInput, Output
 from langflow.schema.message import Message
 
 
@@ -22,7 +21,6 @@ class TextInputComponent(TextComponent):
     ]
 
     def text_response(self) -> Message:
-        message = Message(
+        return Message(
             text=self.input_value,
         )
-        return message
