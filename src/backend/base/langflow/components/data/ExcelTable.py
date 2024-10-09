@@ -1,4 +1,3 @@
-import logging
 from langflow.inputs import FileInput
 from langflow.custom import Component
 from langflow.inputs.inputs import StrInput
@@ -6,6 +5,8 @@ from langflow.schema.data import Data
 from langflow.template.field.base import Output
 from openpyxl.utils.cell import coordinate_from_string
 import pandas as pd
+import dask.dataframe as dd
+
 
 class ExcelTableComponent(Component):
     display_name = "Excel Table"
@@ -59,7 +60,7 @@ class ExcelTableComponent(Component):
         args = self.convert_range_string_to_read_excel_args(excel_range)
         df = pd.read_excel(resolved_path,**args)
         df_dict = df.to_dict(orient='records')
-        data_list = [Data(data=data) for data in df_dict]
+        data_list = [Data(data=row) for row in df_dict]
         self.status = data_list
         return data_list
         
