@@ -1,3 +1,4 @@
+
 from typing import Union
 
 from langchain_core.documents import Document
@@ -27,7 +28,7 @@ def data_to_text(template: str, data: Union[Data, list[Data]], sep: str = "\n") 
         data (list[Data]): The list of Data to convert.
 
     Returns:
-        list[str]: The converted list of texts.
+        str: The converted text.
     """
     if isinstance(data, (Data)):
         data = [data]
@@ -65,3 +66,37 @@ def messages_to_text(template: str, messages: Union[Message, list[Message]]) -> 
 
     formated_messages = [template.format(data=message.model_dump(), **message.model_dump()) for message in _messages]
     return "\n".join(formated_messages)
+
+
+def dataList_to_DataList_from_template(template: str, data: Union[Data, list[Data]]) -> list[Data]:
+    """
+    Converts a Data object or a list of Data objects into a list of Data objects based on the specified template.
+
+    Args:
+        template (str): The template string used for formatting.
+        data (Union[Data, List[Data]]): A single Data object or a list of Data objects to convert.
+
+    Returns:
+        List[Data]: A list of Data objects with their 'text' fields formatted according to the specified template.
+    """
+
+    # If data is a single Data object, wrap it in a list
+    if isinstance(data, Data):
+        data = [data]
+
+    # List to hold the formatted Data objects
+    formatted_data_list = []
+
+    for value in data:
+        # Ensure that each value is a Data object
+        if not isinstance(value, Data):
+            value = Data(text=value)
+
+        # Format the text according to the template
+        formatted_text = template.format(data=value.data, **value.data)
+        
+        # Create a new Data object with the formatted text and add it to the list
+        formatted_data = Data(text=formatted_text)
+        formatted_data_list.append(formatted_data)
+
+    return formatted_data_list

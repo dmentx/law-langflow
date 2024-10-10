@@ -88,7 +88,7 @@
             "id": "ParseData-qYLes",
             "name": "text",
             "output_types": [
-              "Message"
+              "Data"
             ]
           },
           "targetHandle": {
@@ -103,7 +103,7 @@
         },
         "id": "reactflow__edge-ParseData-qYLes{œdataTypeœ:œParseDataœ,œidœ:œParseData-qYLesœ,œnameœ:œtextœ,œoutput_typesœ:[œMessageœ]}-Prompt-n8yRL{œfieldNameœ:œDocumentœ,œidœ:œPrompt-n8yRLœ,œinputTypesœ:[œMessageœ,œTextœ],œtypeœ:œstrœ}",
         "source": "ParseData-qYLes",
-        "sourceHandle": "{œdataTypeœ: œParseDataœ, œidœ: œParseData-qYLesœ, œnameœ: œtextœ, œoutput_typesœ: [œMessageœ]}",
+        "sourceHandle": "{œdataTypeœ: œParseDataœ, œidœ: œParseData-qYLesœ, œnameœ: œtextœ, œoutput_typesœ: [œDataœ]}",
         "target": "Prompt-n8yRL",
         "targetHandle": "{œfieldNameœ: œDocumentœ, œidœ: œPrompt-n8yRLœ, œinputTypesœ: [œMessageœ, œTextœ], œtypeœ: œstrœ}"
       },
@@ -998,7 +998,7 @@
             "beta": false,
             "conditional_paths": [],
             "custom_fields": {},
-            "description": "Convert Data into plain text following a specified template.",
+            "description": "Convert Data into plain text or Data List following a specified template.",
             "display_name": "Parse Data",
             "documentation": "",
             "edited": false,
@@ -1016,9 +1016,9 @@
                 "display_name": "Text",
                 "method": "parse_data",
                 "name": "text",
-                "selected": "Message",
+                "selected": "Data",
                 "types": [
-                  "Message"
+                  "Data"
                 ],
                 "value": "__UNDEFINED__"
               }
@@ -1042,7 +1042,7 @@
                 "show": true,
                 "title_case": false,
                 "type": "code",
-                "value": "from langflow.custom import Component\nfrom langflow.helpers.data import data_to_text\nfrom langflow.io import DataInput, MultilineInput, Output, StrInput\nfrom langflow.schema.message import Message\n\n\nclass ParseDataComponent(Component):\n    display_name = \"Parse Data\"\n    description = \"Convert Data into plain text following a specified template.\"\n    icon = \"braces\"\n    name = \"ParseData\"\n\n    inputs = [\n        DataInput(name=\"data\", display_name=\"Data\", info=\"The data to convert to text.\"),\n        MultilineInput(\n            name=\"template\",\n            display_name=\"Template\",\n            info=\"The template to use for formatting the data. It can contain the keys {text}, {data} or any other key in the Data.\",\n            value=\"{text}\",\n        ),\n        StrInput(name=\"sep\", display_name=\"Separator\", advanced=True, value=\"\\n\"),\n    ]\n\n    outputs = [\n        Output(display_name=\"Text\", name=\"text\", method=\"parse_data\"),\n    ]\n\n    def parse_data(self) -> Message:\n        data = self.data if isinstance(self.data, list) else [self.data]\n        template = self.template\n\n        result_string = data_to_text(template, data, sep=self.sep)\n        self.status = result_string\n        return Message(text=result_string)\n"
+                "value": "from langflow.custom import Component\nfrom langflow.helpers.data import data_to_text, dataList_to_DataList_from_template\nfrom langflow.inputs.inputs import BoolInput\nfrom langflow.io import DataInput, MultilineInput, Output, StrInput\nfrom langflow.schema.data import Data\n\n\nclass ParseDataComponent(Component):\n    display_name = \"Parse Data\"\n    description = \"Convert Data into plain text or Data List following a specified template.\"\n    icon = \"braces\"\n    name = \"ParseData\"\n\n    inputs = [\n        DataInput(name=\"data\", display_name=\"Data\", info=\"The data to convert to text.\"),\n        MultilineInput(\n            name=\"template\",\n            display_name=\"Template\",\n            info=\"The template to use for formatting the data. It can contain the keys {text}, {data} or any other key in the Data.\",\n            value=\"{text}\",\n        ),\n        StrInput(name=\"sep\", display_name=\"Separator\", advanced=True, value=\"\\n\"),\n        BoolInput(\n            name=\"dataList\",\n            display_name=\"Data as List\",\n            info=\"Check this if you want the Data as list\",\n            dynamic=True\n        )\n    ]\n\n    outputs = [\n        Output(display_name=\"Text\", name=\"text\", method=\"parse_data\"),\n    ]\n\n    def parse_data(self) -> list[Data]:\n        data = self.data if isinstance(self.data, list) else [self.data]\n        template = self.template\n        if self.dataList:\n            result_list = dataList_to_DataList_from_template(template, data)\n            return result_list\n            \n        result_string = data_to_text(template, data, sep=self.sep)\n        self.status = result_string\n        return [Data(text_key=result_string)]\n"
               },
               "data": {
                 "advanced": false,
@@ -1062,6 +1062,22 @@
                 "trace_as_metadata": true,
                 "type": "other",
                 "value": ""
+              },
+              "dataList": {
+                "_input_type": "BoolInput",
+                "advanced": false,
+                "display_name": "Data as List",
+                "dynamic": false,
+                "info": "Check this if you want the Data as list",
+                "list": false,
+                "name": "dataList",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "type": "bool",
+                "value": false
               },
               "sep": {
                 "advanced": true,
