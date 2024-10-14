@@ -5,7 +5,6 @@ from langflow.schema.data import Data
 from langflow.template.field.base import Output
 from openpyxl.utils.cell import coordinate_from_string
 import pandas as pd
-import dask.dataframe as dd
 
 
 class ExcelTableComponent(Component):
@@ -25,6 +24,12 @@ class ExcelTableComponent(Component):
             display_name = "Cell Range",
             required=True,
             info="Enter the range in which the table lies. Example: A4:N28"
+            
+        ),
+        StrInput(
+            name="sheet_name",
+            display_name="Sheet name",
+            advanced=True,
             
         )
     ]
@@ -55,10 +60,11 @@ class ExcelTableComponent(Component):
     def load_excel(self) -> list[Data]:
         if not self.path:
             raise ValueError("Please, upload a file to use this component.")
+        sheet_name = self.sheet_name if self.sheet_name else 0
         resolved_path = self.resolve_path(self.path)
         excel_range = self.cells
         args = self.convert_range_string_to_read_excel_args(excel_range)
-        df = pd.read_excel(resolved_path,**args)
+        df = pd.read_excel(resolved_path,sheet_name,**args)
         df_dict = df.to_dict(orient='records')
         data_list = [Data(data=row) for row in df_dict]
         self.status = data_list
