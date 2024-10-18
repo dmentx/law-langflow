@@ -217,6 +217,7 @@ pandas = "2.2.2"
 pillow = "^10.4.0"
 modin = {extras = ["ray"], version = "^0.32.0"}
 dask = {extras = ["complete", "dataframe", "distributed"], version = "^2024.9.1"}
+fpdf2 = "^2.8.1"
 
 
 [tool.poetry.group.dev.dependencies]
