@@ -2,7 +2,7 @@ from pathlib import Path
 from fpdf import FPDF
 from langflow import logging
 from langflow.custom import Component
-from langflow.inputs.inputs import DataInput, StrInput
+from langflow.inputs.inputs import DataInput, MessageTextInput
 from langflow.schema.data import Data
 from langflow.schema.message import Message
 from langflow.template.field.base import Output
@@ -21,7 +21,7 @@ class PdfOutputComponent(Component):
             display_name="Data Input",
             info= "The Data to save as a pdf"
         ),
-        StrInput(
+        MessageTextInput(
             name="text",
             display_name= "Text",
             info="Text to save as as pdf"

@@ -297,7 +297,7 @@ build_and_run: setup_env ## build the project and run it
 	rm -rf src/backend/base/dist
 	make build
 	poetry run pip install dist/*.tar.gz
-	poetry run langflow run
+	poetry run langflow-law run
 
 build_and_install: ## build the project and install it
 	@echo 'Removing dist folder'

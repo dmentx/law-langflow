@@ -66,6 +66,9 @@ typings/
 # Optional npm cache directory
 .npm
 
+#pdfs
+pdfs/
+
 # Optional eslint cache
 .eslintcache
 
