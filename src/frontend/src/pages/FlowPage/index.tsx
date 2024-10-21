@@ -165,7 +165,7 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
         {ENABLE_BRANDING && version && (
           <a
             target={"_blank"}
-            href="https://medium.com/logspace/langflow-datastax-better-together-1b7462cebc4d"
+            href="https://github.com/dmentx/law-langflow"
             className="langflow-page-icon"
           >
             <div className="mt-1">Osborne Clarke ❤️ Langflow</div>
