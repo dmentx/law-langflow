@@ -1,7 +1,8 @@
+import os
 from pathlib import Path
 from fpdf import FPDF
-from langflow import logging
 from langflow.custom import Component
+from langflow.helpers.file_upload import upload_blob_file
 from langflow.inputs.inputs import DataInput, MessageTextInput
 from langflow.schema.data import Data
 from langflow.schema.message import Message
@@ -55,7 +56,9 @@ class PdfOutputComponent(Component):
             pdf.write_html(df_html)
             path = Path("pdfs/test.pdf").resolve()    
             pdf.output(path)
-            return Message(text=str(path))
+            file_url = upload_blob_file(path,".pdf")
+            os.remove(path)
+            return Message(text=f"[Download]({str(file_url)})")
         
         
         

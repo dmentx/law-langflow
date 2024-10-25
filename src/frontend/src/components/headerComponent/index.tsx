@@ -271,7 +271,7 @@ export default function Header(): JSX.Element {
                   className="cursor-pointer gap-2"
                   onClick={() =>
                     window.open(
-                      "https://github.com/langflow-ai/langflow/discussions",
+                      "https://github.com/dmentx/law-langflow/discussions",
                       "_blank",
                     )
                   }

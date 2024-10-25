@@ -218,6 +218,7 @@ pillow = "^10.4.0"
 modin = {extras = ["ray"], version = "^0.32.0"}
 dask = {extras = ["complete", "dataframe", "distributed"], version = "^2024.9.1"}
 fpdf2 = "^2.8.1"
+azure-storage-blob = "^12.23.1"
 
 
 [tool.poetry.group.dev.dependencies]

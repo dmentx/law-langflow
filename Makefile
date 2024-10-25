@@ -256,7 +256,7 @@ setup_devcontainer: ## set up the development container
 	make install_backend
 	make install_frontend
 	make build_frontend
-	poetry run langflow --path src/frontend/build
+	poetry run langflow-law run --path src/frontend/build
 
 setup_env: ## set up the environment
 	@sh ./scripts/setup/setup_env.sh
