@@ -48,5 +48,5 @@ class MergeData2Component(Component):
         except Exception:
             logger.exception("An error occurred during the data merging process.")
             raise
-        
+        print(merged_data_list)
         return merged_data_list
