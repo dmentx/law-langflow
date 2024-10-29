@@ -54,11 +54,11 @@ class PdfOutputComponent(Component):
         else:
             df_html = df.to_html()
             pdf.write_html(df_html)
-            path = Path("pdfs/test.pdf").resolve()    
+            path = Path("file_upload/pdfs/test.pdf").resolve()    
             pdf.output(path)
             file_url = upload_blob_file(path,".pdf")
             os.remove(path)
-            return Message(text=f"[Download]({str(file_url)})")
+            return Message(text=f"[Download Excel]({str(file_url)})")
         
         
         

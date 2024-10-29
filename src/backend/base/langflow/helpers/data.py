@@ -96,7 +96,7 @@ def dataList_to_DataList_from_template(template: str, data: Union[Data, list[Dat
         formatted_text = template.format(data=value.data, **value.data)
         
         # Create a new Data object with the formatted text and add it to the list
-        formatted_data = Data(text=formatted_text)
+        formatted_data = Data(text_key=template, data={f"{template[1:-1]}":f"{formatted_text}"})
         formatted_data_list.append(formatted_data)
 
     return formatted_data_list
