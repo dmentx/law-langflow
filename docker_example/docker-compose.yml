@@ -8,8 +8,8 @@ services:
     environment:
       - LANGFLOW_DATABASE_URL=postgresql://langflow:langflow@postgres:5432/langflow
       - LANGFLOW_SUPERUSER=admin
-      - LANGFLOW_SUPERUSER_PASSWORD=willOCS992
-      - LANGFLOW_SECRET_KEY=macpEkNhVmrTAYtH
+      - LANGFLOW_SUPERUSER_PASSWORD=admin
+      - LANGFLOW_SECRET_KEY=admin
     volumes:
       - langflow-data:/app/langflow
 
