@@ -63,7 +63,7 @@ help: ## show this help message
 
 install_backend: ## install the backend dependencies
 	@echo 'Installing backend dependencies'
-	@poetry install > /dev/null 2>&1
+	@poetry install 
 
 install_frontend: ## install the frontend dependencies
 	@echo 'Installing frontend dependencies'
@@ -256,7 +256,7 @@ setup_devcontainer: ## set up the development container
 	make install_backend
 	make install_frontend
 	make build_frontend
-	poetry run langflow --path src/frontend/build
+	poetry run langflow-law run --path src/frontend/build
 
 setup_env: ## set up the environment
 	@sh ./scripts/setup/setup_env.sh
@@ -297,7 +297,7 @@ build_and_run: setup_env ## build the project and run it
 	rm -rf src/backend/base/dist
 	make build
 	poetry run pip install dist/*.tar.gz
-	poetry run langflow run
+	poetry run langflow-law run
 
 build_and_install: ## build the project and install it
 	@echo 'Removing dist folder'
@@ -352,22 +352,22 @@ docker_build_backend: dockerfile_build_be clear_dockerimage ## build Backend Doc
 docker_build_frontend: dockerfile_build_fe clear_dockerimage ## build Frontend Dockerfile
 
 dockerfile_build:
-	@echo 'BUILDING DOCKER IMAGE: ${DOCKERFILE}'
-	@docker build --rm \
-		-f ${DOCKERFILE} \
-		-t langflow:${VERSION} .
+    @echo 'BUILDING DOCKER IMAGE: ${DOCKERFILE}'
+    @docker build --rm \
+        -f ${DOCKERFILE} \
+        -t langflow-law:${VERSION} .
 
 dockerfile_build_be: dockerfile_build
 	@echo 'BUILDING DOCKER IMAGE BACKEND: ${DOCKERFILE_BACKEND}'
 	@docker build --rm \
-		--build-arg LANGFLOW_IMAGE=langflow:${VERSION} \
+		--build-arg LANGFLOW_IMAGE=langflow-law:${VERSION} \
 		-f ${DOCKERFILE_BACKEND} \
 		-t langflow_backend:${VERSION} .
 
 dockerfile_build_fe: dockerfile_build
 	@echo 'BUILDING DOCKER IMAGE FRONTEND: ${DOCKERFILE_FRONTEND}'
 	@docker build --rm \
-		--build-arg LANGFLOW_IMAGE=langflow:${VERSION} \
+		--build-arg LANGFLOW_IMAGE=langflow-law:${VERSION} \
 		-f ${DOCKERFILE_FRONTEND} \
 		-t langflow_frontend:${VERSION} .
 

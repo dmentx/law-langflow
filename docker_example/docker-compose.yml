@@ -1,16 +1,15 @@
-version: "3.8"
-
 services:
-  langflow:
-    image: langflowai/langflow:latest # or another version tag on https://hub.docker.com/r/langflowai/langflow 
-    pull_policy: always               # set to 'always' when using 'latest' image
+  langflow-law:
+    image: langflow-law:1.0.18
     ports:
       - "7860:7860"
     depends_on:
       - postgres
     environment:
       - LANGFLOW_DATABASE_URL=postgresql://langflow:langflow@postgres:5432/langflow
-      # This variable defines where the logs, file storage, monitor data and secret keys are stored.
+      - LANGFLOW_SUPERUSER=admin
+      - LANGFLOW_SUPERUSER_PASSWORD=admin
+      - LANGFLOW_SECRET_KEY=admin
     volumes:
       - langflow-data:/app/langflow
 

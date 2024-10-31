@@ -1,4 +1,4 @@
-# from langflow.field_typing import Data
+""" # from langflow.field_typing import Data
 from langflow.custom import Component
 from langflow.io import MessageTextInput, Output
 from langflow.schema import Data
@@ -23,3 +23,4 @@ class CustomComponent(Component):
         data = Data(value=self.input_value)
         self.status = data
         return data
+ """

@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.output_parsers.boolean import BooleanOutputParser
+from langflow.base import data
+from langflow.schema.data import Data
 from word2number.w2n import word_to_num
 from word2num_de import word_to_number
 from numbers import Number
@@ -50,12 +52,14 @@ class ConditionComponent(Component):
             name= "input_text",
             display_name="Message Input",
             info= "Text to be processed.",
-            required= True
+            required= True,
         ),
         MessageTextInput(
             name="text_compare",
             display_name="Match Text",
-            info="The text input to compare against"
+            info="The text input to compare against",
+            input_types= ["Message","Data"],
+            list=True
         ),
         DropdownInput(
             name="operator",
@@ -84,6 +88,11 @@ class ConditionComponent(Component):
     def num_condition(a,b, condition):
         return condition(a,b)
     
+    @staticmethod
+    def convert_dataList_to_string(data_list:list[Data]):
+        data_strings = [str(data.get_text) for data in data_list]
+        return " + ".join(data_strings)
+    
     
 
     def evaluate_condition(self, input_text: str, text_compare: str, operator: str, custom_prompt_condition: str) -> bool:
@@ -110,7 +119,9 @@ class ConditionComponent(Component):
         else:
             return self.evaluate_custom_prompt_condition(input_text, text_compare, custom_prompt_condition)
     
-    def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition: str ) -> bool:
+    def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition) -> bool:
+        if(isinstance(custom_prompt_condition,list)):
+            custom_prompt_condition = self.convert_dataList_to_string(custom_prompt_condition)
         model = AzureChatOpenAI(
             azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
             azure_deployment=os.environ["AZURE_OPENAI_API_DEPLOYMENT_NAME"],
@@ -125,6 +136,7 @@ class ConditionComponent(Component):
         parser = BooleanOutputParser()
         chain = prompt_template | model | parser
         output = chain.invoke({"input_text":input_text, "custom_prompt_condition": custom_prompt_condition, "text_compare":text_compare})
+        logging.warning(output)
         return output
     
     def true_response(self) -> Message:

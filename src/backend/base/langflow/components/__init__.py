@@ -16,6 +16,7 @@ from . import (
     toolkits,
     tools,
     vectorstores,
+    file_outputs
 )
 
 __all__ = [
@@ -31,6 +32,7 @@ __all__ = [
     "link_extractors",
     "memories",
     "outputs",
+    "file_outputs",
     "retrievers",
     "textsplitters",
     "toolkits",

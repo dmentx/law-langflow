@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "langflow"
+name = "langflow-law"
 version = "1.0.18"
 description = "A Python package with a built-in web application"
 authors = ["Langflow <contact@langflow.org>"]
@@ -13,7 +13,7 @@ maintainers = [
     "Rodrigo Nader <rodrigo@langflow.org>",
     "Italo dos Anjos <italojohnnydosanjos@gmail.com>",
 ]
-repository = "https://github.com/langflow-ai/langflow"
+repository = "https://github.com/dmentx/law-langflow"
 license = "MIT"
 readme = "README.md"
 keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
@@ -22,7 +22,103 @@ include = ["src/backend/langflow/*", "src/backend/langflow/**/*"]
 documentation = "https://docs.langflow.org"
 
 [tool.poetry.scripts]
-langflow = "langflow.__main__:main"
+langflow-law = "langflow.__main__:main"
+
+[tool.uv.sources]
+langflow-base = {workspace = true}
+langflow = {workspace = true}
+langflow-law = {workspace = true}
+
+[tool.uv.workspace]
+members = ["src/backend/base", "."]
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/backend/langflow"]
+
+[project]
+name = "langflow-law"
+version = "1.0.18"
+description = "A Python package with a built-in web application"
+requires-python = ">=3.10,<3.13"
+# Define your main dependencies here
+dependencies = [
+    "langflow-base==0.0.96",  # Local editable package
+    "beautifulsoup4>=4.12.2",
+    "google-search-results>=2.4.1",
+    "google-api-python-client>=2.130.0",
+    "huggingface-hub[inference]>=0.23.2",
+    "networkx>=3.1",
+    "fake-useragent>=1.5.0",
+    "psycopg2-binary>=2.9.6",
+    "pyarrow>=14.0.0",
+    "wikipedia>=1.4.0",
+    "qdrant-client>=1.9.0",
+    "weaviate-client>=4.8",
+    "cohere>=5.5.3",
+    "faiss-cpu>=1.8.0",
+    "types-cachetools>=5.3.0.5",
+    "pymongo>=4.6.0",
+    "supabase>=2.3.0",
+    "certifi>=2023.11.17,<2025.0.0",
+    "psycopg>=3.1.9",
+    "fastavro>=1.8.0",
+    "redis>=5.0.1",
+    "metaphor-python>=0.1.11",
+    'pywin32>=306; sys_platform == "win32"',
+    "langfuse>=2.33.0",
+    "metal-sdk>=2.5.0",
+    "markupsafe>=2.1.3",
+    "boto3~=1.34.162",
+    "numexpr>=2.8.6",
+    "qianfan==0.3.5",
+    "pgvector>=0.2.3",
+    "pyautogen>=0.2.0",
+    "langchain-google-genai>=1.0.8",
+    "langchain-cohere>=0.1.5",
+    "elasticsearch>=8.12.0",
+    "pytube>=15.0.0",
+    "dspy-ai>=2.4.0",
+    "assemblyai>=0.33.0",
+    "litellm>=1.44.0",
+    "chromadb>=0.4",
+    "langchain-anthropic>=0.1.23",
+    "langchain-astradb>=0.3.5",
+    "langchain-openai==0.1.22",
+    "zep-python>=2.0.0rc5",
+    "langchain-google-vertexai>=1.0.10",
+    "langchain-groq>=0.1.9",
+    "langchain-pinecone>=0.1.3",
+    "langchain-mistralai==0.1.12",
+    "youtube-transcript-api>=0.6.2",
+    "markdown>=3.7",
+    "langchain-chroma>=0.1.1",
+    "upstash-vector>=0.5.0",
+    "gitpython>=3.1.43",
+    "langchain-aws>=0.1.16",
+    "langchain-unstructured>=0.1.2",
+    "langchain-mongodb>=0.1.6",
+    "kubernetes>=30.1.0",
+    "firecrawl-py>=0.0.16",
+    "json-repair>=0.25.2",
+    "langchain-nvidia-ai-endpoints==0.1.6",
+    "langchain-google-calendar-tools>=0.0.1",
+    "langchain-milvus>=0.1.1",
+    "langwatch>=0.1.16",
+    "langsmith>=0.1.86",
+    "yfinance>=0.2.40",
+    "langchain-google-community==1.0.7",
+    "wolframalpha>=5.1.3",
+    "astra-assistants>=2.1.2",
+    "composio-langchain==0.5.9",
+    "spider-client>=0.0.27",
+    "nltk>=3.9.1",
+    "lark>=1.2.2",
+    "jq>=1.8.0",
+    "pydantic-settings==2.4.0",
+    "ragstack-ai-knowledge-store>=0.2.1",
+    "duckduckgo-search>=6.2.11",
+]
 
 
 [tool.poetry.dependencies]
@@ -69,7 +165,6 @@ elasticsearch = "^8.12.0"
 pytube = "^15.0.0"
 dspy-ai = "^2.4.0"
 assemblyai = "^0.26.0"
-litellm = "^1.44.0"
 chromadb = "^0.4"
 langchain-anthropic = "^0.1.23"
 langchain-astradb = "^0.3.5"
@@ -86,7 +181,7 @@ langchain-chroma = "^0.1.1"
 upstash-vector = "^0.5.0"
 gitpython = "^3.1.43"
 cassio = { extras = ["cassio"], version = "^0.1.7", optional = true }
-unstructured = {extras = ["docx", "md", "pptx"], version = "^0.14.4"}
+unstructured = {extras = ["docx", "md", "pptx", "xlsx"], version = "^0.14.4"}
 langchain-aws = "^0.1.16"
 langchain-mongodb = "^0.1.6"
 kubernetes = "^30.1.0"
@@ -115,6 +210,15 @@ langchain-unstructured = "^0.1.2"
 pydantic-settings = "2.4.0"
 ragstack-ai-knowledge-store = "^0.2.1"
 duckduckgo-search = "^6.2.12"
+langchain-community = "0.2.17"
+openpy = "^0.0.2"
+openpyxl = "^3.1.5"
+pandas = "2.2.2"
+pillow = "^10.4.0"
+modin = {extras = ["ray"], version = "^0.32.0"}
+dask = {extras = ["complete", "dataframe", "distributed"], version = "^2024.9.1"}
+fpdf2 = "^2.8.1"
+azure-storage-blob = "^12.23.1"
 
 
 [tool.poetry.group.dev.dependencies]

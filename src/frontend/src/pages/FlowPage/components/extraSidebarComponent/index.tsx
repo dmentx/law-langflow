@@ -260,7 +260,7 @@ export default function ExtraSidebar(): JSX.Element {
           defaultOpen={search.length !== 0 || getFilterEdge.length !== 0}
           key={`${search.length !== 0}-${getFilterEdge.length !== 0}-Advanced`}
           button={{
-            title: "Experimental",
+            title: "Experimental (Not well tested)",
             Icon: nodeIconsLucide.unknown,
             beta: true,
           }}
@@ -287,35 +287,6 @@ export default function ExtraSidebar(): JSX.Element {
                 <div key={index}></div>
               ),
             )}
-          {hasStore && (
-            <a
-              target={"_blank"}
-              href="https://langflow.store"
-              className="components-disclosure-arrangement"
-              draggable="false"
-            >
-              <div className="flex gap-4">
-                {/* BUG ON THIS ICON */}
-                <IconComponent
-                  name="Sparkles"
-                  strokeWidth={1.5}
-                  className="w-[22px] text-primary"
-                />
-
-                <span className="components-disclosure-title">
-                  Discover More
-                </span>
-              </div>
-              <div className="components-disclosure-div">
-                <div>
-                  <IconComponent
-                    name="Link"
-                    className="h-4 w-4 text-foreground"
-                  />
-                </div>
-              </div>
-            </a>
-          )}
         </ParentDisclosureComponent>
         {ENABLE_MVPS && (
           <>

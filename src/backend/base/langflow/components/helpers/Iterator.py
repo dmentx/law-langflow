@@ -1,12 +1,10 @@
 from langchain_openai import AzureChatOpenAI
-from langflow.components.inputs import ChatInput
-from langflow.components.outputs import ChatOutput
 from langflow.custom.custom_component.component import Component
 from langflow.field_typing.constants import LanguageModel
 from langflow.inputs.input_mixin import FieldTypes
-from langflow.inputs.inputs import DataInput, DropdownInput, HandleInput, MessageTextInput, StrInput
+from langflow.inputs.inputs import DataInput, HandleInput, MessageTextInput
 from langflow.schema.data import Data
-from langflow.template.field.base import Input, Output
+from langflow.template.field.base import Output
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
