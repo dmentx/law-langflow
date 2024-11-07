@@ -352,22 +352,22 @@ docker_build_backend: dockerfile_build_be clear_dockerimage ## build Backend Doc
 docker_build_frontend: dockerfile_build_fe clear_dockerimage ## build Frontend Dockerfile
 
 dockerfile_build:
-	@echo 'BUILDING DOCKER IMAGE: ${DOCKERFILE}'
-	@docker build --rm \
-		-f ${DOCKERFILE} \
-		-t langflow:${VERSION} .
+    @echo 'BUILDING DOCKER IMAGE: ${DOCKERFILE}'
+    @docker build --rm \
+        -f ${DOCKERFILE} \
+        -t langflow-law:${VERSION} .
 
 dockerfile_build_be: dockerfile_build
 	@echo 'BUILDING DOCKER IMAGE BACKEND: ${DOCKERFILE_BACKEND}'
 	@docker build --rm \
-		--build-arg LANGFLOW_IMAGE=langflow:${VERSION} \
+		--build-arg LANGFLOW_IMAGE=langflow-law:${VERSION} \
 		-f ${DOCKERFILE_BACKEND} \
 		-t langflow_backend:${VERSION} .
 
 dockerfile_build_fe: dockerfile_build
 	@echo 'BUILDING DOCKER IMAGE FRONTEND: ${DOCKERFILE_FRONTEND}'
 	@docker build --rm \
-		--build-arg LANGFLOW_IMAGE=langflow:${VERSION} \
+		--build-arg LANGFLOW_IMAGE=langflow-law:${VERSION} \
 		-f ${DOCKERFILE_FRONTEND} \
 		-t langflow_frontend:${VERSION} .
 

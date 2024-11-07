@@ -1,4 +1,5 @@
 
+from langchain_core.tools import Tool
 from enum import Enum
 import logging
 import os
@@ -82,6 +83,7 @@ class ConditionComponent(Component):
     outputs = [
         Output(display_name="True Route", name="true_result", method="true_response"),
         Output(display_name="False Route", name="false_result", method="false_response"),
+        Output(display_name="Tool",name="condition_tool", method="build_tool")
     ]
     
     @staticmethod
@@ -167,3 +169,10 @@ class ConditionComponent(Component):
                 return word_to_number(number)
             except ValueError:
                 return number
+                              
+    def build_tool(self) -> Tool:
+        return Tool(
+            name="condition_tool",
+            description="Condition Tool for Loop",
+            func=self.build()
+        )
