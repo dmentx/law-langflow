@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.output_parsers.boolean import BooleanOutputParser
-from langflow.base import data
 from langflow.schema.data import Data
+from sqlalchemy import null
 from word2number.w2n import word_to_num
 from word2num_de import word_to_number
 from numbers import Number
@@ -16,7 +16,7 @@ from langflow.api.log_router import logs
 from langflow.custom import Component
 from langflow.custom.eval import eval_custom_component_code
 from langflow.inputs import StrInput
-from langflow.inputs.inputs import DropdownInput, MessageInput, MessageTextInput
+from langflow.inputs.inputs import DropdownInput, MessageInput, MessageTextInput, BoolInput
 from langflow.schema.message import Message
 from langflow.template import Output
 from sympy import false
@@ -53,7 +53,13 @@ class ConditionComponent(Component):
             name= "input_text",
             display_name="Message Input",
             info= "Text to be processed.",
+            input_types = ["Message", "Data"],
             required= True,
+        ),
+        StrInput(
+            name = "column",
+            display_name = "Column name",
+            required = False
         ),
         MessageTextInput(
             name="text_compare",
@@ -73,6 +79,12 @@ class ConditionComponent(Component):
             display_name= "Custom Prompt Condition",
             info= "Optional: Add custom condition."
         ),
+        BoolInput(
+            name = "list_output",
+            display_name = "Get filtered list as output",
+            dynamic = True,
+            advanced=True
+        ),
         MessageInput(
             name="message",
             display_name="Message",
@@ -81,9 +93,8 @@ class ConditionComponent(Component):
     ]
 
     outputs = [
-        Output(display_name="True Route", name="true_result", method="true_response"),
-        Output(display_name="False Route", name="false_result", method="false_response"),
-        Output(display_name="Tool",name="condition_tool", method="build_tool")
+        Output(display_name="True Route", name="true_result", method="true_response",types=["Message","Data"]),
+        Output(display_name="False Route", name="false_result", method="false_response")
     ]
     
     @staticmethod
@@ -95,9 +106,54 @@ class ConditionComponent(Component):
         data_strings = [str(data.get_text) for data in data_list]
         return " + ".join(data_strings)
     
+    def filter_list_of_condition(self)->list[Data]:
+        input_list:list[Data] = self.input_text
+        match_value = self.text_compare
+        condition = self.operator
+        column = self.column
+        output_list:list[Data]
+        match condition:
+            case ConditionComponent.ConditionOption.GREATER_THAN.value:
+                output_list =[data for data in input_list if float(data.data.get(column,0)) > match_value]
+                return output_list
+            case ConditionComponent.ConditionOption.LESS_THAN.value:
+                output_list =[data for data in input_list if float(data.data.get(column,0)) < match_value]
+                return output_list
+            case ConditionComponent.ConditionOption.EQUALS.value:
+                output_list = [
+                    data for data in input_list
+                    if (float(data.data.get(column, 0)) == match_value if isinstance(match_value, (int, float)) else data.data.get(column) == match_value)
+                ]
+                return output_list
+
+            case ConditionComponent.ConditionOption.NOT_EQUALS.value:
+                output_list = [
+                    data for data in input_list
+                    if (float(data.data.get(column, 0)) != match_value if isinstance(match_value, (int, float)) else data.data.get(column) != match_value)
+                ]
+                return output_list
+            case ConditionComponent.ConditionOption.CONTAINS.value:
+                output_list = [data for data in input_list if str(data.data.get(column)) in match_value]
+                return output_list
+            case ConditionComponent.ConditionOption.NOT_CONTAINS.value:
+                output_list = [data for data in input_list if str(data.data.get(column)) not in match_value]
+                return output_list
+            case ConditionComponent.ConditionOption.START_WITH.value:
+                output_list = [data for data in input_list if str(data.data.get(column)).startswith(match_value)]
+                return output_list
+            case ConditionComponent.ConditionOption.END_WITH.value:
+                output_list = [data for data in input_list if str(data.data.get(column)).endswith(match_value)]               
+            case _:
+                return False    
+                
+            
+        
+        
     
 
     def evaluate_condition(self, input_text: str, text_compare: str, operator: str, custom_prompt_condition: str) -> bool:
+        if self.list_output:
+            self.filter_list_of_condition
         if not custom_prompt_condition:
             match operator:
                 case ConditionComponent.ConditionOption.EQUALS.value:
@@ -141,7 +197,7 @@ class ConditionComponent(Component):
         logging.warning(output)
         return output
     
-    def true_response(self) -> Message:
+    def true_response(self) -> Message | list[Data]:
         result = self.evaluate_condition(self.input_text, self.text_compare, self.operator, self.custom_prompt_condition)
         if result:
             logging.info(f"{result}")
@@ -170,9 +226,3 @@ class ConditionComponent(Component):
             except ValueError:
                 return number
                               
-    def build_tool(self) -> Tool:
-        return Tool(
-            name="condition_tool",
-            description="Condition Tool for Loop",
-            func=self.build()
-        )

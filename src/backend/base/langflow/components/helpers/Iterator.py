@@ -42,7 +42,7 @@ class IteratorComponent(Component):
     
     def get_iterator(self) ->list[Data]:
         rList:list[Data] = []
-        llmModel:AzureChatOpenAI = self.llm
+        llmModel = self.llm
         system_template = "You are an experienced lawyer from Osborne Clarke (OC)."
         human_template = self.prompt
         prompt_template = ChatPromptTemplate.from_messages(

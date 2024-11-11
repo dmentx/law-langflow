@@ -4,6 +4,7 @@
 from cohere import Tool
 from langflow.custom.custom_component.component import Component
 from langflow.inputs.inputs import DataInput, HandleInput
+from langflow.schema.data import Data
 from langflow.template.field.base import Output
 
 
@@ -33,8 +34,10 @@ class IteratorComponent(Component):
         Output(name="iterator_tool",display_name="Iterator Tool", method="build_tool")
     ]
     
-    def build_tool(self) -> Tool:
-        self.build()
+    def build_tool(self) -> list[Data]:
+        data = Data()
+        ld = [data]
+        return ld
     
     
     
