@@ -29,6 +29,7 @@ class FieldTypes(str, Enum):
     OTHER = "other"
     TABLE = "table"
     LINK = "link"
+    ITERATOR_LIST = "iteratorList"
 
 
 SerializableFieldTypes = Annotated[FieldTypes, PlainSerializer(lambda v: v.value, return_type=str)]

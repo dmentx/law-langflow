@@ -1,5 +1,5 @@
 from langflow.custom.custom_component.component import Component
-from langflow.inputs.inputs import DropdownInput, HandleInput, MultilineInput
+from langflow.inputs.inputs import DataInput, DropdownInput, HandleInput, IteratorListInput, MultilineInput
 from langflow.schema.data import Data
 from langflow.template.field.base import Output
 
@@ -12,11 +12,11 @@ class LoopComponent(Component):
     
     inputs = [
         MultilineInput(name="template", display_name="Template", required=False),
-        HandleInput(name="iterator",
-                    display_name="Iterator", 
-                    info="Please provide a Iterator Component",
-                    input_types=["IteratorComponent"], 
-                    list=True,
+        IteratorListInput(name="iterator",
+                    display_name="Lists", 
+                    info="Please provide your lists",
+                    is_list=True,
+                    input_types=["Data"],
                     required=True),
         DropdownInput(name="loop_variant",display_name="Loop Variant", options=["Iterate"], value="Iterate")
     ]
@@ -26,6 +26,10 @@ class LoopComponent(Component):
     ]
     
     def build_loop(self) -> list[Data]:
+        l1 = self.iterator[0]
+        l2 = self.iterator[1]
+        print(l1)
+        print(l2)
         data = Data(text_key="wew")
         self.status = data
         return data

@@ -21,6 +21,7 @@ from .inputs import (
     StrInput,
     TableInput,
     LinkInput,
+    IteratorListInput
 )
 
 __all__ = [
@@ -46,4 +47,5 @@ __all__ = [
     "Input",
     "DefaultPromptField",
     "LinkInput",
+    "IteratorListInput"
 ]

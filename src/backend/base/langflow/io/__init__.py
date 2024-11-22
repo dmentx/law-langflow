@@ -20,6 +20,8 @@ from langflow.inputs import (
     TableInput,
     DefaultPromptField,
     LinkInput,
+    IteratorListInput
+    
 )
 from langflow.template import Output
 
@@ -46,4 +48,5 @@ __all__ = [
     "TableInput",
     "DefaultPromptField",
     "LinkInput",
+    "IteratorListInput"
 ]

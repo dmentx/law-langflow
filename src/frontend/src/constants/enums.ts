@@ -26,6 +26,7 @@ export enum IOInputTypes {
   KEYPAIR = "KeyPairInput",
   JSON = "JsonInput",
   STRING_LIST = "StringListInput",
+  ITERATOR_LIST = "IteratorListInput"
 }
 
 export enum IOOutputTypes {
