@@ -37,7 +37,7 @@ class IteratorComponent(Component):
         )
     ]
     outputs = [
-        Output(display_name="Output List", name="iterator", method= "get_iterator")
+        Output(display_name="Output List", name="iterator_output", method= "get_iterator")
     ]
     
     def get_iterator(self) ->list[Data]:

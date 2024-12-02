@@ -1,7 +1,7 @@
 from langchain_openai import AzureChatOpenAI
 from langflow.base.models.model import LCModelComponent
 from langflow.field_typing import LanguageModel
-from langflow.inputs import MessageTextInput
+from langflow.inputs.inputs import StrInput
 from langflow.io import DropdownInput, FloatInput, IntInput, SecretStrInput
 
 
@@ -14,6 +14,7 @@ class AzureChatOpenAIComponent(LCModelComponent):
     name = "AzureOpenAIModel"
 
     AZURE_OPENAI_API_VERSIONS = [
+        "2024-08-01-preview",
         "2024-02-15-preview",
         "2023-03-15-preview",
         "2023-05-15",
@@ -27,13 +28,13 @@ class AzureChatOpenAIComponent(LCModelComponent):
     ]
 
     inputs = LCModelComponent._base_inputs + [
-        MessageTextInput(
+        StrInput(
             name="azure_endpoint",
             display_name="Azure Endpoint",
             info="Your Azure endpoint, including the resource. Example: `https://example-resource.azure.openai.com/`",
             required=True,
         ),
-        MessageTextInput(name="azure_deployment", display_name="Deployment Name", required=True),
+        StrInput(name="azure_deployment", display_name="Deployment Name", required=True),
         SecretStrInput(name="api_key", display_name="API Key"),
         DropdownInput(
             name="api_version",
