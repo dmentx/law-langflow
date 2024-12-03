@@ -1,0 +1,1 @@
+EXCEPTION_HISTORY_TEMPLATE_EN = "The following list contains exceptions that occurred due to erroneous results in the latest and previous iterations of this prompt. The latest iteration has lead to the bottom exception. Your task: Make a new attempt and make sure to not repeat the previous mistakes!\nHistory of mistakes: \n\n"
