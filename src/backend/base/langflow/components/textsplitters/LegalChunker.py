@@ -5,6 +5,7 @@ from langflow.inputs.inputs import FileInput, HandleInput
 from langflow.schema.data import Data
 from langflow.template.field.base import Output
 from langflow.field_typing import Embeddings
+import json
 
 class LegalChunkerComponent(Component):
     display_name = "Legal Chunker"
@@ -22,7 +23,7 @@ class LegalChunkerComponent(Component):
         ),
         HandleInput(
             name = "llm",
-            display_name="Azure Language Model",
+            display_name="Language Model",
             input_types=["LanguageModel"],
             required=True
         ),
@@ -43,6 +44,12 @@ class LegalChunkerComponent(Component):
         print(path)
         azure_client = self.llm
         legal_chunker_processor = OCSLegalChunker(path,azure_client,show_isolated_headlines=True)
-        res = legal_chunker_processor.process()
-        print(res)
-        return res
+        json_str = legal_chunker_processor.process()
+        json_list = json.loads(json_str)
+        chunk_list_data:list[Data] = []
+        for chunk in json_list:
+            json_dictP = {"Legal Chunk":chunk}
+            data = Data(data=json_dictP)
+            chunk_list_data.append(data)
+        data = chunk_list_data
+        return data
