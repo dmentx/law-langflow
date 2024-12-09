@@ -4,6 +4,9 @@ from pathlib import Path
 import re
 import subprocess
 
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain.chains.llm import LLMChain
 from langflow.base.legal_chunker.prompts.OpenAI.templates_chunker.page_classifier_EN import PAGE_CLASSIFIER_EN
 from langflow.base.legal_chunker.prompts.OpenAI.templates_chunker.headlines_row_metadata_EN import HEADLINES_ROW_METADATA_EN
 from langflow.base.legal_chunker.prompts.OpenAI.templates_chunker.exception_history_template_EN import EXCEPTION_HISTORY_TEMPLATE_EN
@@ -16,8 +19,7 @@ from langflow.base.legal_chunker.components.headline_validator import validate_h
 from langflow.base.legal_chunker.components.get_article_sections import get_article_sections
 from langflow.base.legal_chunker.components.remove_first_line import remove_first_line
 
-from numpy import indices
-import unidecode
+from unidecode import unidecode
 
 
 class OCSLegalChunker():
@@ -28,7 +30,7 @@ class OCSLegalChunker():
     MAX_RETRIES = 10
     CHUNK_SUB_HEADLINES = True
     
-    def __init__(self, pdf_path: Path, azure_client, show_isolated_headlines, verbose=False):
+    def __init__(self, pdf_path:Path, azure_client, show_isolated_headlines, verbose=False):
         """Initialize without pdf_path, allowing for more flexible usage"""
         self.pdf_path = pdf_path
         self.azure_client = azure_client
@@ -43,8 +45,16 @@ class OCSLegalChunker():
         self.ocr_pdfbox = OCR_PDFBox(pdf_path)
          self.legal_text = self.extract_and_clean_pdf()
         """
-        command = ["java", "-cp", "./java/pdfbox-app-3.0.3.jar;./java/gson-2.11.0.jar;./java", "PDFStripper", self.pdf_path] 
-        result = subprocess.run(command, capture_output=True,text=True)
+        command = [
+            "java", 
+            "-cp", 
+            "src/backend/base/langflow/base/legal_chunker/java/pdfbox-app-3.0.3.jar;src/backend/base/langflow/base/legal_chunker/java/gson-2.11.0.jar;src/backend/base/langflow/base/legal_chunker/java", 
+            "PDFStripper", 
+            self.pdf_path
+        ]  
+        result = subprocess.run(command, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise ValueError(f"Error running PDFStripper: {result.stderr}")
         self.legal_text = codecs.decode(result.stdout, 'unicode_escape')
         self.legal_text = self.legal_text.encode('latin1').decode('utf-8')
         self.legal_text = self.extract_and_clean_pdf()
@@ -59,6 +69,7 @@ class OCSLegalChunker():
         """
         Process the document and return chunks.
         """
+        
         if self.pdf_path:
             self.load_document()
             
@@ -79,9 +90,23 @@ class OCSLegalChunker():
                 article_sections = get_article_sections(self.legal_text,indices)
                 
                 last_chunk = create_row_tags(article_sections[-1])
-                response_annex_lastChunk = self.azure_client.generate_response(
-                    ANNEX_IDENTIFIER_EN,
-                    f"Input: {last_chunk}"
+
+                prompt_template = PromptTemplate(
+                    input_variables=["system_prompt", "user_prompt"],
+                    template="""
+                    {system_prompt}
+    
+                    {user_prompt}
+                    """
+                )
+                
+                chain = prompt_template | self.azure_client | StrOutputParser()
+
+                system_prompt = ANNEX_IDENTIFIER_EN
+                user_prompt = f"Input: {last_chunk}"
+
+                response_annex_lastChunk = chain.invoke(
+                    {"system_prompt": system_prompt, "user_prompt": user_prompt}
                 )
                 
                 if response_annex_lastChunk != 'null':
@@ -116,11 +141,25 @@ class OCSLegalChunker():
         # Output the list of pages  
         classifications = []  
         for i, page in enumerate(page_list):  
-            #print(page + "\n_________________________________")  
-            page_class = self.azure_client.generate_response(  
-                PAGE_CLASSIFIER_EN,  
-                f"Input: {page}"  
-            )  
+            #print(page + "\n_________________________________")
+            
+            prompt_template = PromptTemplate(
+                input_variables=["system_prompt", "user_prompt"],
+                template="""
+                {system_prompt}
+    
+                {user_prompt}
+                """
+            )
+            
+            chain = prompt_template | self.azure_client | StrOutputParser()
+            
+            system_prompt = PAGE_CLASSIFIER_EN
+            user_prompt = f"Input: {page}"
+
+            page_class = chain.invoke(
+                {"system_prompt": system_prompt, "user_prompt": user_prompt}
+            )
             classifications.append({"page_num": i+1, "classification": page_class})
 
             return classifications
@@ -152,11 +191,26 @@ class OCSLegalChunker():
         exception_history = EXCEPTION_HISTORY_TEMPLATE_EN
         headline_row_metadata = HEADLINES_ROW_METADATA_EN
         retries = 0
+        
+        prompt_template = PromptTemplate(
+            input_variables=["system_prompt", "user_prompt"],
+            template="""
+            {system_prompt}
+    
+            {user_prompt}
+            """
+        )
+        
+        chain = prompt_template | self.azure_client | StrOutputParser()
 
-        response_headlines = self.azure_client.generate_response(
-            headline_row_metadata,
-            f"Input: {legal_text_rowmetadata}"
-            ) 
+        system_prompt = headline_row_metadata
+        user_prompt = f"Input: {legal_text_rowmetadata}"
+
+
+        
+        response_headlines = chain.invoke(
+            {"system_prompt": system_prompt, "user_prompt": user_prompt}
+        )
 
         while retries < self.MAX_RETRIES:
             output = response_headlines
@@ -191,9 +245,24 @@ class OCSLegalChunker():
         chunk_classifications = []
 
         for chunk in article_sections:
-            chunk_classifier = self.azure_client.generate_response(
-                SUBHEADLINES_IDENTIFIER_EN, 
-                f"Input: {chunk}"
+            
+            prompt_template = PromptTemplate(
+                input_variables=["system_prompt", "user_prompt"],
+                template="""
+                {system_prompt}
+    
+                {user_prompt}
+                """
+            )
+            
+            chain = prompt_template | self.azure_client | StrOutputParser()
+            
+            system_prompt = SUBHEADLINES_IDENTIFIER_EN
+            user_prompt = f"Input: {chunk}"
+
+            
+            chunk_classifier = chain.invoke(
+                {"system_prompt": system_prompt, "user_prompt": user_prompt}
             )
             
             chunk_classifications.append(chunk_classifier)
@@ -205,10 +274,24 @@ class OCSLegalChunker():
             if chunk_classifications[index] == "TRUE":
                 chunk_reduced = remove_first_line(chunk)
                 chunk_rowmetadata = create_row_tags(chunk_reduced)
+                
+                prompt_template = PromptTemplate(
+                    input_variables=["system_prompt", "user_prompt"],
+                    template="""
+                    {system_prompt}
+    
+                    {user_prompt}
+                    """
+                )
+                
+                chain = prompt_template | self.azure_client | StrOutputParser()
+                
+                system_prompt = SUBHEADLINES_ROW_METADATA_EN
+                user_prompt = f"Input: {chunk_rowmetadata}"
 
-                response_subheading = self.azure_client.generate_response(
-                    SUBHEADLINES_ROW_METADATA_EN, 
-                    f"Input: {chunk_rowmetadata}"
+                
+                response_subheading = chain.invoke(
+                    {"system_prompt": system_prompt, "user_prompt": user_prompt}
                 )
 
                 try:

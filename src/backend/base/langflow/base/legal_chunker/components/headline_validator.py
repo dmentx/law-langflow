@@ -5,6 +5,10 @@ current_dir = os.getcwd()
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain.chains.llm import LLMChain
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai  import AzureOpenAI
 from langflow.base.legal_chunker.prompts.OpenAI.templates_chunker.headline_validator_EN import (
     HEADLINE_VALIDATOR_ITERATION_1,
@@ -14,7 +18,7 @@ from langflow.base.legal_chunker.prompts.OpenAI.templates_chunker.headline_valid
 
 
 
-def validate_headlines(legal_text, items, exception_history, retry_iteration, client:AzureOpenAI):
+def validate_headlines(legal_text, items, exception_history, retry_iteration, client):
     """
     Validate identified headlines from legal text.
 
@@ -54,9 +58,22 @@ def validate_headlines(legal_text, items, exception_history, retry_iteration, cl
 
             prompt = HEADLINE_VALIDATOR_ITERATION_N.format(cleaned_pre_headline=cleaned_pre_headline) 
 
-        classification = client.generate_response(
-            system_prompt= prompt,
-            user_prompt= f"Input: {cleaned_headline}"
+        
+        prompt_template = PromptTemplate(
+            input_variables=["system_prompt", "user_prompt"],
+            template="""
+            {system_prompt}
+    
+            {user_prompt}
+            """
+        )
+                
+        chain = prompt_template | client | StrOutputParser()
+        
+        system_prompt = prompt
+        user_prompt = f"Input: {cleaned_headline}"
+        classification = chain.invoke(
+            {"system_prompt": system_prompt, "user_prompt": user_prompt}
         )
 
         if 'FALSE' in classification and index == 0:
