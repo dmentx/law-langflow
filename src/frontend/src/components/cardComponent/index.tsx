@@ -1,5 +1,5 @@
 import { track } from "@/customization/utils/analytics";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Control } from "react-hook-form";
 import IOModal from "../../modals/IOModal";
 import useAlertStore from "../../stores/alertStore";
@@ -22,6 +22,7 @@ import { FormControl, FormField } from "../ui/form";
 import Loading from "../ui/loading";
 import useDragStart from "./hooks/use-on-drag-start";
 import { convertTestName } from "./utils/convert-test-name";
+import { flow } from "lodash";
 
 export default function CollectionCardComponent({
   data,
@@ -34,6 +35,10 @@ export default function CollectionCardComponent({
   onClick?: () => void;
   control?: Control<any, any>;
 }) {
+  //Forms
+  const [openForms, setOpenForms] = useState(false);
+  const [loadingForms, setLoadingForms] = useState(false)
+  //
   const setErrorData = useAlertStore((state) => state.setErrorData);
   const setCurrentFlow = useFlowsManagerStore((state) => state.setCurrentFlow);
   const getFlowById = useFlowsManagerStore((state) => state.getFlowById);
@@ -42,6 +47,14 @@ export default function CollectionCardComponent({
   const selectedFlowsComponentsCards = useFlowsManagerStore(
     (state) => state.selectedFlowsComponentsCards,
   );
+  //Forms
+  function hasForms(flow?: FlowType) {
+    if (!flow) {
+      return false;
+    }
+  }
+  //
+
   function hasPlayground(flow?: FlowType) {
     if (!flow) {
       return false;
@@ -49,11 +62,43 @@ export default function CollectionCardComponent({
     const { inputs, outputs } = getInputsAndOutputs(flow?.data?.nodes ?? []);
     return inputs.length > 0 || outputs.length > 0;
   }
+  //Forms
+  const forms = !(data.is_component ?? false);
+  //
+
   const playground = !(data.is_component ?? false);
   const isSelectedCard =
     selectedFlowsComponentsCards?.includes(data?.id) ?? false;
 
   const { onDragStart } = useDragStart(data);
+
+  //Forms
+  const handleFormsClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    track("Forms Button Clicked", {flowId: data.id});
+    setLoadingForms(true);
+    const flow = getFlowById(data.id);
+    if (flow) {
+      if (!hasForms(flow)) {
+        setErrorData({
+          title: "Error",
+          list: ["This flow does not have a form"],
+        });
+        setLoadingForms(false);
+        return;
+      }
+      setCurrentFlow(flow);
+      setOpenForms(true);
+      setLoadingForms(false);
+    } else {
+      setErrorData({
+        title: "Error",
+        list: ["Error getting flow data."],
+      });
+    }
+  };
+  //
 
   const handlePlaygroundClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -173,6 +218,28 @@ export default function CollectionCardComponent({
                   )}
                   Playground
                 </Button>
+              )}
+              {forms && (
+                <Button
+                  disabled={loadingForms || !hasForms(data)}
+                  key={data.id}
+                  tabIndex={-1}
+                  variant="primary"
+                  size="sm"
+                  className="gap-2 whitespace-nowrap bg-muted"
+                  data-testid={"playground-flow-button-" + data.id}
+                  onClick={handleFormsClick}
+                >
+                  {!loadingForms ? (
+                    <IconComponent
+                      name="notebook-pen"
+                      className="h-4 w-4 select-none"
+                    />  
+                  ) : (
+                    <Loading className="h4 w4 text-medium-indigo" />
+                  )}
+                  Forms
+                </Button>  
               )}
             </div>
           </div>
