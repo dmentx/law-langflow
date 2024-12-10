@@ -39,7 +39,6 @@ class APIRequestComponent(Component):
             advanced=False,
             refresh_button=True,
             real_time_refresh=True,
-            tool_mode=True,
         ),
         DropdownInput(
             name="method",
@@ -65,7 +64,6 @@ class APIRequestComponent(Component):
             name="query_params",
             display_name="Query Parameters",
             info="The query parameters to append to the URL.",
-            tool_mode=True,
         ),
         IntInput(
             name="timeout",
