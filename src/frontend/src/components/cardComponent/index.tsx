@@ -23,6 +23,7 @@ import Loading from "../ui/loading";
 import useDragStart from "./hooks/use-on-drag-start";
 import { convertTestName } from "./utils/convert-test-name";
 import { flow } from "lodash";
+import FormsModal from "@/modals/formsModal";
 
 export default function CollectionCardComponent({
   data,
@@ -52,6 +53,10 @@ export default function CollectionCardComponent({
     if (!flow) {
       return false;
     }
+      const { inputs, outputs } = getInputsAndOutputs(
+         flow?.data?.nodes ?? [],
+        );
+        return inputs.length > 0 || outputs.length > 0;
   }
   //
 
@@ -254,6 +259,16 @@ export default function CollectionCardComponent({
         >
           <></>
         </IOModal>
+      )}
+      {openForms && (
+        <FormsModal
+          key={data.id}
+          cleanOnClose = {true}
+          open={openForms}
+          setOpen={setOpenForms}
+        >
+          <></>
+        </FormsModal>  
       )}
     </>
   );
