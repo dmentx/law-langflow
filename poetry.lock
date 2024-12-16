@@ -11860,6 +11860,17 @@ pyperclip = "*"
 six = "*"
 
 [[package]]
+name = "unidecode"
+version = "1.3.8"
+description = "ASCII transliterations of Unicode text"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "Unidecode-1.3.8-py3-none-any.whl", hash = "sha256:d130a61ce6696f8148a3bd8fe779c99adeb4b870584eeb9526584e9aa091fd39"},
+    {file = "Unidecode-1.3.8.tar.gz", hash = "sha256:cfdb349d46ed3873ece4586b96aa75258726e2fa8ec21d6f00a591d98806c2f4"},
+]
+
+[[package]]
 name = "unstructured"
 version = "0.14.10"
 description = "A library that prepares raw documents for downstream ML tasks."
@@ -13090,4 +13101,4 @@ local = ["ctransformers", "llama-cpp-python", "sentence-transformers"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "812cf9c1ffc2bc0022b198711d5b5e8c6b74381295ae7e95e75d0969c49aa933"
+content-hash = "eb848dc5cbfda137952e0a920e7f498b747af6e3472fc1fc28ef330af3e59c97"

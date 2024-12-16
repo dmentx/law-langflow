@@ -1,3 +1,4 @@
+import IteratorNodeList from "@/components/inputIteratorListComponent";
 import { cloneDeep } from "lodash";
 import { useState } from "react";
 import ImageViewer from "../../../../components/ImageViewer";
@@ -134,6 +135,25 @@ export default function IOFieldView({
                     if (node) {
                       let newNode = cloneDeep(node);
                       newNode.data.node!.template["input_value"].value = e;
+                      setNode(node.id, newNode);
+                    }
+                  }}
+                  disabled={false}
+                />
+              </>
+            );
+          case IOInputTypes.ITERATOR_LIST:
+            return (
+              <>
+                <IteratorNodeList
+                  initialNodes={
+                    node.data.node?.template["input_value"]?.value || []
+                  }
+                  onChange={(newNodes) => {
+                    if (node) {
+                      let newNode = cloneDeep(node);
+                      newNode.data.node.template["input_value"].value =
+                        newNodes;
                       setNode(node.id, newNode);
                     }
                   }}

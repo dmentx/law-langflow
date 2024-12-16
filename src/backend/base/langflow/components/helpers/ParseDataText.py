@@ -1,3 +1,4 @@
+import string
 from langflow.custom import Component
 from langflow.helpers.data import data_to_text
 from langflow.io import DataInput, MultilineInput, Output, StrInput
@@ -29,7 +30,7 @@ class ParseDataToTextComponent(Component):
     def parse_data(self) -> Message:
         data = self.data if isinstance(self.data, list) else [self.data]
         template = self.template
-
         result_string = data_to_text(template, data, sep=self.sep)
-        self.status = result_string
-        return Message(text=result_string)
+        new_string = f"{str(self.template)}\n {result_string} "
+        self.status = new_string
+        return Message(text=new_string)

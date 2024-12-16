@@ -69,10 +69,64 @@ class DataInput(HandleInput, InputTraceMixin, ListableInputMixin):
     """
 
     input_types: list[str] = ["Data"]
+    
+    # @field_validator("value")
+    # @classmethod
+    # def validate_value(cls, v: Any, _info):
+    #     """
+    #     Validates the given value and returns the processed value.
+
+    #     Args:
+    #         v (Any): The value to be validated.
+    #         _info: Additional information about the input.
+
+    #     Returns:
+    #         The processed value.
+
+    #     Raises:
+    #         ValueError: If the value is not of a valid type or if the input is missing a required key.
+    #     """
+    #     is_list = _info.data["is_list"]
+    #     value = None
+    #     if is_list:
+    #         value = [cls._validate_value(vv, _info) for vv in v]
+    #     else:
+    #         value = cls._validate_value(v, _info)
+    #     return value
+    
 
 
 class PromptInput(BaseInputMixin, ListableInputMixin, InputTraceMixin):
     field_type: SerializableFieldTypes = FieldTypes.PROMPT
+    
+class IteratorListInput(BaseInputMixin,ListableInputMixin,InputTraceMixin):
+    field_type: SerializableFieldTypes = FieldTypes.ITERATOR_LIST
+    load_from_db: CoalesceBool = False
+    
+    @field_validator("value")
+    @classmethod
+    def validate_value(cls, v: Any, _info):
+        """
+        Validates the given value and returns the processed value.
+
+        Args:
+            v (Any): The value to be validated.
+            _info: Additional information about the input.
+
+        Returns:
+            The processed value.
+
+        Raises:
+            ValueError: If the value is not of a valid type or if the input is missing a required key.
+        """
+        is_list = _info.data["is_list"]
+        value = None
+        if is_list:
+            value = [cls._validate_value(vv, _info) for vv in v]
+        else:
+            value = cls._validate_value(v, _info)
+        return value
+    
 
 
 class CodeInput(BaseInputMixin, ListableInputMixin, InputTraceMixin):
@@ -508,6 +562,7 @@ InputTypes = Union[
     MessageInput,
     TableInput,
     LinkInput,
+    IteratorListInput
 ]
 
 InputTypesMap: dict[str, type[InputTypes]] = {t.__name__: t for t in get_args(InputTypes)}

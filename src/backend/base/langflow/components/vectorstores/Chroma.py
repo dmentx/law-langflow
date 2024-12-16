@@ -141,38 +141,29 @@ class ChromaVectorStoreComponent(LCVectorStoreComponent):
         return chroma
 
     def _add_documents_to_vector_store(self, vector_store: "Chroma") -> None:
-        """
-        Adds documents to the Vector Store.
-        """
+        """Adds documents to the Vector Store."""
         if not self.ingest_data:
             self.status = ""
             return
 
-        # Initialisiere eine Liste für gespeicherte Dokumente ohne IDs
         _stored_documents_without_id = []
         if self.allow_duplicates:
             stored_data = []
         else:
-            # Holen Sie sich die gespeicherten Daten aus dem Vector Store
             stored_data = chroma_collection_to_data(vector_store.get(limit=self.limit))
             for value in deepcopy(stored_data):
-            # Hier wird die ID entfernt, um Duplikate basierend auf den Daten zu überprüfen
-                del value.id  
+                del value.id
                 _stored_documents_without_id.append(value)
 
         documents = []
         for _input in self.ingest_data or []:
             if isinstance(_input, Data):
-                # Erzeuge ein Dokument aus den Eingabedaten
-                document = _input.to_lc_document()
-
-                # Überprüfe, ob das Dokument nicht bereits in _stored_documents_without_id ist
-                if document not in _stored_documents_without_id:
-                    documents.append(document)
+                if _input not in _stored_documents_without_id:
+                    documents.append(_input.to_lc_document())
             else:
-                raise ValueError("Vector Store Inputs must be Data objects.")
+                msg = "Vector Store Inputs must be Data objects."
+                raise TypeError(msg)
 
-        # Füge nur einzigartige Dokumente zur Vector Store hinzu
         if documents and self.embedding is not None:
             logger.debug(f"Adding {len(documents)} documents to the Vector Store.")
             vector_store.add_documents(documents)

@@ -34,8 +34,13 @@ class ExcelOutputComponent(Component):
         data:list[Data] = self.data_list
         data_dict = [data_i.data for data_i in data]
         df = pd.DataFrame(data_dict)
-        path= Path("file_upload/excels/text.xlsx").resolve()
-        df.to_excel(excel_writer=path)
-        file_url = upload_blob_file(path,".xlsx")
-        os.remove(path)
+
+        folder_path = Path("file_upload/excels")
+        folder_path.mkdir(parents=True, exist_ok=True) 
+
+        file_path = folder_path / "text.xlsx" 
+        df.to_excel(excel_writer=file_path)
+
+        file_url = upload_blob_file(file_path, ".xlsx")
+        os.remove(file_path)  
         return Message(text=f"[Download Excel]({str(file_url)})")

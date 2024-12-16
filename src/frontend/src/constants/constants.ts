@@ -661,6 +661,7 @@ export const INPUT_TYPES = new Set([
   "KeyPairInput",
   "JsonInput",
   "StringListInput",
+  "IteratorListInput"
 ]);
 export const OUTPUT_TYPES = new Set([
   "ChatOutput",

@@ -213,6 +213,11 @@ class Message(Data):
         return cls(prompt=prompt_json)
 
     def format_text(self):
+        template = self.template
+        protected_placeholders = ['{yourInput1}', '{yourInput2}']
+        if any(placeholder in template for placeholder in protected_placeholders):
+            self.text = template
+            return str(template)
         prompt_template = PromptTemplate.from_template(self.template)
         variables_with_str_values = dict_values_to_string(self.variables)
         formatted_prompt = prompt_template.format(**variables_with_str_values)
@@ -222,7 +227,11 @@ class Message(Data):
     @classmethod
     async def from_template_and_variables(cls, template: str, **variables):
         instance = cls(template=template, variables=variables)
+
+        # Verarbeite das Template und lasse Platzhalter unverändert
         text = instance.format_text()
+
+
         # Get all Message instances from the kwargs
         message = HumanMessage(content=text)
         contents = []
@@ -237,6 +246,7 @@ class Message(Data):
         instance.prompt = jsonable_encoder(prompt_template.to_json())
         instance.messages = instance.prompt.get("kwargs", {}).get("messages", [])
         return instance
+
 
     @classmethod
     def sync_from_template_and_variables(cls, template: str, **variables):

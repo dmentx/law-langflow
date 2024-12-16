@@ -737,6 +737,15 @@ export type IOModalPropsType = {
   cleanOnClose?: boolean;
 };
 
+export type FormsModalPropsType = {
+  children: JSX.Element;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  disable?: boolean;
+  isForms?:boolean;
+  cleanOnClose?: boolean;
+}
+
 export type buttonBoxPropsType = {
   onClick: () => void;
   title: string;

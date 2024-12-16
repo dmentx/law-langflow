@@ -8,6 +8,7 @@ from .StoreMessage import StoreMessageComponent
 from .CreateList import CreateListComponent
 from .Condition import ConditionComponent
 from .ParseDataText import ParseDataToTextComponent
+from .FilterData import FilterDataComponent
 
 
 __all__ = [
@@ -20,5 +21,6 @@ __all__ = [
     "SplitTextComponent",
     "StoreMessageComponent",
     "ConditionComponent",
-    "ParseDataToTextComponent"
+    "ParseDataToTextComponent",
+    "FilterDataComponent"
 ]
