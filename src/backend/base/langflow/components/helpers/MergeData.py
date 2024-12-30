@@ -29,7 +29,7 @@ class MergeDataComponent(Component):
     def build(self) -> list[Data]:
         data_list: list[Data] = self.data
         if not data_list:
-            return []  # Return an empty list if no data is provided
+            return []  
         
         try:
             # Merge all data dictionaries, filling missing keys with empty strings
@@ -38,6 +38,6 @@ class MergeDataComponent(Component):
         except Exception:
             logger.exception("An error occurred during the data merging process.")
             raise
-        # Update the status for the component
+
         self.status = merged_data_list
         return merged_data_list

@@ -94,10 +94,7 @@ class ConditionComponent(Component):
     def num_condition(a,b, condition):
         return condition(a,b)
     
-    @staticmethod
-    def convert_dataList_to_string(data_list:list[Data]):
-        data_strings = [str(data.get_text) for data in data_list]
-        return " + ".join(data_strings)
+
     
     
 
@@ -125,9 +122,7 @@ class ConditionComponent(Component):
         else:
             return self.evaluate_custom_prompt_condition(input_text, text_compare, custom_prompt_condition)
     
-    def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition) -> bool:
-        if(isinstance(custom_prompt_condition,list)):
-            custom_prompt_condition = self.convert_dataList_to_string(custom_prompt_condition)
+    def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition:str) -> bool:
         model = self.llm
         system_template = "You get two inputs and a condition and check whether the condition is true or false. Answer with YES or NO"
         human_template = "Input 1: {input_text}. Condition: {custom_prompt_condition}. Input 2: {text_compare}"
