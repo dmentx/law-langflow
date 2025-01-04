@@ -4247,13 +4247,13 @@ files = [
 
 [[package]]
 name = "identify"
-version = "2.6.4"
+version = "2.6.5"
 description = "File identification library for Python"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "identify-2.6.4-py2.py3-none-any.whl", hash = "sha256:993b0f01b97e0568c179bb9196391ff391bfb88a99099dbf5ce392b68f42d0af"},
-    {file = "identify-2.6.4.tar.gz", hash = "sha256:285a7d27e397652e8cafe537a6cc97dd470a970f48fb2e9d979aa38eae5513ac"},
+    {file = "identify-2.6.5-py2.py3-none-any.whl", hash = "sha256:14181a47091eb75b337af4c23078c9d09225cd4c48929f521f3bf16b09d02566"},
+    {file = "identify-2.6.5.tar.gz", hash = "sha256:c10b33f250e5bba374fae86fb57f3adcebf1161bce7cdf92031915fd480c13bc"},
 ]
 
 [package.extras]
@@ -5498,13 +5498,14 @@ files = [
 six = "*"
 
 [[package]]
-name = "langflow-base"
-version = "0.0.96"
+name = "langflow-law-base"
+version = "0.0.97"
 description = "A Python package with a built-in web application"
 optional = false
-python-versions = ">=3.10,<3.13"
+python-versions = "<3.13,>=3.10"
 files = [
-    {file = "langflow_base-0.0.96-py3-none-any.whl", hash = "sha256:bf3238dfdb0e28992272e78c0e2197d5d62c8699544212f11dffdc776df28d0a"},
+    {file = "langflow_law_base-0.0.97-py3-none-any.whl", hash = "sha256:8d442707a553609e687da65c6a61aa83899c3768b37a5545202f030cd75ced42"},
+    {file = "langflow_law_base-0.0.97.tar.gz", hash = "sha256:f6f9bdfbcbb2a280a867a2d88a4723648ba0be70c7dbac6ac268e95fc6248595"},
 ]
 
 [package.dependencies]
@@ -5562,10 +5563,6 @@ typer = ">=0.12.0,<0.13.0"
 uncurl = ">=0.0.11,<0.0.12"
 uvicorn = ">=0.30.0,<0.31.0"
 websockets = "*"
-
-[package.source]
-type = "file"
-url = "src/backend/base/dist/langflow_base-0.0.96-py3-none-any.whl"
 
 [[package]]
 name = "langfuse"
@@ -13029,4 +13026,4 @@ local = ["ctransformers", "llama-cpp-python", "sentence-transformers"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "355b3a1004625bde566cc38e4ab620876920ad7c79fc0b3eba6f2bcf0c72745d"
+content-hash = "62a3c11645c206dede222578cf42553f58124f3afe6ffffb39084f673ee1de03"

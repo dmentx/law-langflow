@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langflow-law"
-version = "1.0.18"
+version = "1.0.19"
 description = "A Python package with a built-in web application"
 authors = ["Daniel <daniel.mentjukov@osborneclarke.com>"]
 maintainers = [
@@ -36,7 +36,6 @@ description = "A Python package with a built-in web application"
 requires-python = ">=3.10,<3.13"
 # Define your main dependencies here
 dependencies = [
-    "langflow-base==0.0.96",  # Local editable package
     "beautifulsoup4>=4.12.2",
     "google-search-results>=2.4.1",
     "google-api-python-client>=2.130.0",
@@ -213,7 +212,7 @@ fpdf2 = "^2.8.1"
 azure-storage-blob = "^12.23.1"
 unidecode = "^1.3.8"
 selenium = "^4.27.1"
-langflow-base = "0.0.96"
+langflow-law-base = "0.0.97"
 
 
 [tool.poetry.group.dev.dependencies]

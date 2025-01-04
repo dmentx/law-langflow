@@ -84,9 +84,9 @@ def get_lifespan(fix_migration=False, socketio_server=None, version=None):
         nest_asyncio.apply()
         # Startup message
         if version:
-            rprint(f"[bold green]Starting Langflow v{version}...[/bold green]")
+            rprint(f"[bold green]Starting Langflow Law v{version}...[/bold green]")
         else:
-            rprint("[bold green]Starting Langflow...[/bold green]")
+            rprint("[bold green]Starting Langflow Law...[/bold green]")
         try:
             initialize_services(fix_migration=fix_migration, socketio_server=socketio_server)
             setup_llm_caching()
