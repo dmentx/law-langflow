@@ -41,6 +41,6 @@ pip install langflow-law
 
 ## 👋 Contribute
 
-We welcome contributions from developers of all levels.
+I welcome contributions from developers of all levels.
 
 
