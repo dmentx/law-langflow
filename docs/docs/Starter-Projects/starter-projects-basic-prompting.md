@@ -20,7 +20,7 @@ This article demonstrates how to use Langflow's prompt tools to issue basic prom
 
 ---
 
-- [Langflow installed and running](/getting-started-installation)
+
 - [OpenAI API key created](https://platform.openai.com/)
 
 ## Basic Prompting {#1fae0e83ef08453fba017870d6d981bc}

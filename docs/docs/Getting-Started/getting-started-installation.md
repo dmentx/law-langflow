@@ -6,21 +6,6 @@ slug: /getting-started-installation
 
 
 
-## **DataStax Langflow** {#a3b4bd8dec5a49ebbfca4828492133e9}
-
-
----
-
-
-The easiest way to get started with Langflow is through the DataStax Cloud Service!
-
-
-
-**DataStax Langflow** is a hosted version of Langflow integrated with [Astra DB](https://www.datastax.com/products/datastax-astra). Be up and running in minutes with no installation or setup required. [Sign up for free](https://astra.datastax.com/signup?type=langflow).
-
-
-![](./602374500.png)
-
 
 ## **Install Langflow Locally** {#ef364ee864c545649d248113ad7d3038}
 
@@ -37,19 +22,19 @@ Langflow **requires** Python version 3.10 or greater and [pip](https://pypi.o
 
 
 
-Install Langflow with pip:
+Install Langflow Law with pip:
 
 
 ```bash
-python -m pip install langflow -U
+python -m pip install langflow-law -U
 ```
 
 
-Install Langflow with pipx:
+Install Langflow Law with pipx:
 
 
 ```bash
-pipx install langflow --python python3.10 --fetch-missing-python
+pipx install langflow-law --python python3.10 --fetch-missing-python
 ```
 
 
@@ -69,29 +54,23 @@ To get help in the Langflow CLI:
 
 
 ```bash
-python -m langflow --help
+python -m langflow-law --help
 ```
 
 
-## ⛓️ Run Langflow {#d318c4d486b74f5383c45b4f6859dcaa}
+## ⛓️ Run Langflow Law {#d318c4d486b74f5383c45b4f6859dcaa}
 
 
 ---
 
 
-1. To run Langflow, enter the following command.
+1. To run Langflow Law, enter the following command.
 
 
 ```bash
-python -m langflow run
+python -m langflow-law run
 ```
 
 
-2. Confirm that a local Langflow instance starts by visiting `http://127.0.0.1:7860` in a Chromium-based browser.
-
-
-![](./221680153.png)
-
-
-3. Continue on to the [Quickstart](/getting-started-quickstart).
+2. Confirm that a local Langflow Law instance starts by visiting `http://127.0.0.1:7860` in a Chromium-based browser.
 

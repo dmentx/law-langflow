@@ -1,6 +1,6 @@
 ---
 title: Embedding Models
-sidebar_position: 6
+sidebar_position: 4
 slug: /components-embedding-models
 ---
 
@@ -8,68 +8,7 @@ slug: /components-embedding-models
 
 Embeddings models are used to convert text into numerical vectors. These vectors can be used for various tasks such as similarity search, clustering, and classification.
 
-## AI/ML
 
-This component generates embeddings using the [AI/ML API](https://docs.aimlapi.com/api-overview/embeddings).
-
-### Parameters
-
-#### Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| model_name | String | The name of the AI/ML embedding model to use |
-| aiml_api_key | SecretString | API key for authenticating with the AI/ML service |
-
-#### Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| embeddings | Embeddings | An instance of AIMLEmbeddingsImpl for generating embeddings |
-
-## Amazon Bedrock Embeddings
-
-This component is used to load embedding models from [Amazon Bedrock](https://aws.amazon.com/bedrock/).
-
-### Parameters
-
-#### Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| credentials_profile_name | String | Name of the AWS credentials profile in ~/.aws/credentials or ~/.aws/config, which has access keys or role information |
-| model_id | String | ID of the model to call, e.g., `amazon.titan-embed-text-v1`. This is equivalent to the `modelId` property in the `list-foundation-models` API |
-| endpoint_url | String | URL to set a specific service endpoint other than the default AWS endpoint |
-| region_name | String | AWS region to use, e.g., `us-west-2`. Falls back to `AWS_DEFAULT_REGION` environment variable or region specified in ~/.aws/config if not provided |
-
-#### Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| embeddings | Embeddings | An instance for generating embeddings using Amazon Bedrock |
-
-
-## Astra vectorize
-
-This component is used to generate server-side embeddings using [DataStax Astra](https://docs.datastax.com/en/astra-db-serverless/databases/embedding-generation.html).
-
-### Parameters
-
-#### Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| provider | String | The embedding provider to use |
-| model_name | String | The embedding model to use |
-| authentication | Dict | Authentication parameters. Use the Astra Portal to add the embedding provider integration to your Astra organization |
-| provider_api_key | String | An alternative to the Astra Authentication that lets you use directly the API key of the provider |
-| model_parameters | Dict | Additional model parameters |
-
-#### Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| embeddings | Embeddings | An instance for generating embeddings using Astra vectorize |                                                                                      |             |
 
 ## Azure OpenAI Embeddings
 
@@ -92,72 +31,7 @@ This component generates embeddings using Azure OpenAI models.
 |------|------|-------------|
 | embeddings | Embeddings | An instance for generating embeddings using Azure OpenAI |
 
-## Cohere Embeddings
 
-This component is used to load embedding models from [Cohere](https://cohere.com/).
-
-### Parameters
-
-#### Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| cohere_api_key | String | API key required to authenticate with the Cohere service |
-| model | String | Language model used for embedding text documents and performing queries (default: `embed-english-v2.0`) |
-| truncate | Boolean | Whether to truncate the input text to fit within the model's constraints (default: `False`) |
-
-#### Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| embeddings | Embeddings | An instance for generating embeddings using Cohere |
-
-## Hugging Face Inference API Embeddings
-
-This component generates embeddings using Hugging Face Inference API models.
-
-### Parameters
-
-#### Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| API Key | String | API key for accessing the Hugging Face Inference API |
-| API URL | String | URL of the Hugging Face Inference API (default: `http://localhost:8080`) |
-| Model Name | String | Name of the model to use for embeddings (default: `BAAI/bge-large-en-v1.5`) |
-| Cache Folder | String | Folder path to cache Hugging Face models |
-| Encode Kwargs | Dict | Additional arguments for the encoding process |
-| Model Kwargs | Dict | Additional arguments for the model |
-| Multi Process | Boolean | Whether to use multiple processes (default: `False`) |
-
-#### Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| embeddings | Embeddings | An instance for generating embeddings using Hugging Face Inference API |
-
-## MistralAI
-
-This component generates embeddings using MistralAI models.
-
-### Parameters
-
-#### Inputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| model | String | The MistralAI model to use (default: "mistral-embed") |
-| mistral_api_key | SecretString | API key for authenticating with MistralAI |
-| max_concurrent_requests | Integer | Maximum number of concurrent API requests (default: 64) |
-| max_retries | Integer | Maximum number of retry attempts for failed requests (default: 5) |
-| timeout | Integer | Request timeout in seconds (default: 120) |
-| endpoint | String | Custom API endpoint URL (default: "https://api.mistral.ai/v1/") |
-
-#### Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| embeddings | Embeddings | MistralAIEmbeddings instance for generating embeddings |
 
 ## NVIDIA
 
@@ -266,6 +140,46 @@ This component is a wrapper around [Google Vertex AI](https://cloud.google.com/v
 | Name | Type | Description |
 |------|------|-------------|
 | embeddings | Embeddings | An instance for generating embeddings using VertexAI |
+
+## Embedding similarity
+
+This component computes selected forms of similarity between two embedding vectors.
+
+### Parameters
+
+#### Inputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| embedding_vectors | Embedding Vectors | A list containing exactly two data objects with embedding vectors to compare. |
+| similarity_metric | Similarity Metric | Select the similarity metric to use. Options: "Cosine Similarity", "Euclidean Distance", "Manhattan Distance".|
+
+#### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| similarity_data| Similarity Data | Data object containing the computed similarity score and additional information. |
+
+## Text Embedder
+
+This component generates embeddings for a given message using a specified embedding model.
+
+### Parameters
+
+#### Inputs
+
+| Name            | Type          | Description                                              |
+|-----------------|---------------|----------------------------------------------------------|
+| embedding_model | Embedding Model | The embedding model to use for generating embeddings.     |
+| message         | Message       | The message for which to generate embeddings.             |
+
+#### Outputs
+
+| Name      | Type          | Description                                                |
+|-----------|---------------|------------------------------------------------------------|
+| embeddings| Embedding Data | Data object containing the original text and its embedding vector. |
+
+
 
 [Previous Vector Stores](/components-vector-stores)
 

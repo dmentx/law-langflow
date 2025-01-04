@@ -1,6 +1,6 @@
 ---
 title: Helpers
-sidebar_position: 4
+sidebar_position: 2
 slug: /components-helpers
 ---
 
@@ -67,7 +67,24 @@ Use this component as a template to create your custom component.
 
 ## Filter Data
 
-This component converts LangChain documents into Data.
+This component filters a column against an match text with an operator
+
+### Parameters
+
+#### Inputs
+
+| Name | Display Name | Info |
+|------|--------------|------|
+| data | Data         | Your Data table |
+| column | Column name | The name of the column |
+| text_compare | Match Text | The text input to compare against |
+| operator | Operator | The operator to apply for comparing the texts |
+
+#### Outputs
+
+| Name | Display Name | Info |
+|------|--------------|------|
+| filtered_data | Filtered Data | The filtered Data |
 
 ## Hierarchical Task
 
@@ -103,11 +120,40 @@ This component generates a unique ID.
 |------|--------------|------|
 | value | Value | Unique ID generated. |
 
-## Merge Data
+## Merge Data 1 and 2
+
+With this Component you can Merge to Data tables into one Data table. You need to use Part 1 and 2.
+
+## Output Parser
+
+Parse the output of an LLM into specified ouput. You have to put this Component into a prompt Component.
+
 
 ## Parse Data
 
-The ParseData component converts Data objects into plain text using a specified template.
+The ParseData component converts Data objects into plain text or a Data Object using a specified template.
+This component transforms structured data into human-readable text formats, allowing for customizable output through the use of templates.
+
+### Parameters
+
+#### Inputs
+
+| Name | Display Name | Info |
+|------|--------------|------|
+| data | Data | The data to convert to text |
+| template | Template | The template to use for formatting the data. It can contain the keys `{text}`, `{data}` or any other key in the Data |
+| sep | Separator | The separator to use between multiple data items |
+| dataList | Data as List | Check this if you want the Data as list |
+
+#### Outputs
+
+| Name | Display Name | Info |
+|------|--------------|------|
+| text | Text | The resulting formatted text string as a Message or Data object |
+
+## Parse Data to Text
+
+The ParseData component converts Data objects into plain text  using a specified template.
 This component transforms structured data into human-readable text formats, allowing for customizable output through the use of templates.
 
 ### Parameters
@@ -120,11 +166,15 @@ This component transforms structured data into human-readable text formats, allo
 | template | Template | The template to use for formatting the data. It can contain the keys `{text}`, `{data}` or any other key in the Data |
 | sep | Separator | The separator to use between multiple data items |
 
+
 #### Outputs
 
 | Name | Display Name | Info |
 |------|--------------|------|
 | text | Text | The resulting formatted text string as a Message object |
+
+
+
 
 ## Sequential Task
 

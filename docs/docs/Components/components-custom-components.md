@@ -1,6 +1,6 @@
 ---
 title: Custom Components
-sidebar_position: 8
+sidebar_position: 6
 slug: /components-custom-components
 ---
 

@@ -7,15 +7,15 @@ const { remarkCodeHike } = require("@code-hike/mdx");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Langflow Documentation",
-  tagline: "Langflow is a GUI for LangChain, designed with react-flow",
+  title: "Langflow Law Documentation",
+  tagline: "Langflow Law is a GUI for LangChain, designed with react-flow",
   favicon: "img/favicon.ico",
-  url: "https://langflow-ai.github.io",
+  url: "https://dmentx.github.io",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  organizationName: "langflow-ai",
-  projectName: "langflow",
+  organizationName: "dmentx",
+  projectName: "law-langflow",
   trailingSlash: false,
   staticDirectories: ["static"],
   customFields: {

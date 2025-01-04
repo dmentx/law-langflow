@@ -16,11 +16,11 @@ This is a list of possible issues that you may encounter when installing Langflo
 > No module named 'langflow.__main__' 
 ```
 
-1. Run `python -m langflow run` instead of `langflow run`.
-2. If that doesn't work, reinstall Langflow with `_python -m pip install langflow --pre -U`.
-3. If that doesn't work, reinstall Langflow and its dependencies with `python -m pip install langflow --pre -U --force-reinstall`.
+1. Run `python -m langflow-law run` instead of `langflow-law run`.
+2. If that doesn't work, reinstall Langflow Law with `_python -m pip install langflow-law --pre -U`.
+3. If that doesn't work, reinstall Langflow Law and its dependencies with `python -m pip install langflow-law --pre -U --force-reinstall`.
 
-When you try to run Langflow using the command `langflow run`, you may encounter the following error:
+When you try to run Langflow Law using the command `langflow-law run`, you may encounter the following error:
 
 
 ```bash
@@ -30,11 +30,11 @@ When you try to run Langflow using the command `langflow run`, you may encounte
 
 There are two possible reasons for this error:
 
-1. You've installed Langflow using `pip install langflow` but you already had a previous version of Langflow installed in your system. In this case, you might be running the wrong executable. To solve this issue, run the correct executable by running `python -m langflow run` instead of `langflow run`. If that doesn't work, try uninstalling and reinstalling Langflow with `python -m pip install langflow --pre -U`.
-2. Some version conflicts might have occurred during the installation process. Run `python -m pip install langflow --pre -U --force-reinstall` to reinstall Langflow and its dependencies.
+1. You've installed Langflow Law using `pip install langflow-law` but you already had a previous version of Langflow Law installed in your system. In this case, you might be running the wrong executable. To solve this issue, run the correct executable by running `python -m langflow-law run` instead of `langflow-law run`. If that doesn't work, try uninstalling and reinstalling Langflow Law with `python -m pip install langflow-law --pre -U`.
+2. Some version conflicts might have occurred during the installation process. Run `python -m pip install langflow-law --pre -U --force-reinstall` to reinstall Langflow Law and its dependencies.
 
 ```bash
-> Something went wrong running migrations. Please, run 'langflow migration --fix'
+> Something went wrong running migrations. Please, run 'langflow-law migration --fix'
 ```
 
 

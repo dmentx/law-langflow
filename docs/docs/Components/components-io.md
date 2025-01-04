@@ -85,5 +85,6 @@ This component displays text data to the user without sending it to the chat. De
 
 | Name  | Display Name | Info                                                    |
 |-------|--------------|----------------------------------------------------------|
-| Value | Value        | Specifies the text data to be displayed                  |
+| text | Text         | Text to be passed as output |
+| text_output | Text Output | Text to be shown to User |
 

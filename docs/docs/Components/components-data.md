@@ -1,6 +1,6 @@
 ---
 title: Data
-sidebar_position: 3
+sidebar_position: 5
 slug: /components-data
 ---
 
@@ -82,64 +82,44 @@ The URLComponent is a class that fetches content from one or more URLs, processe
 |------|--------------|----------------------------------------------------------------|
 | data | Data         | List of Data objects containing fetched content and metadata   |
 
+## Excel Table
 
-## Gmail Loader
-
-This component loads emails from Gmail using provided credentials and filters.
-
-For more on creating a service account JSON, see [Service Account JSON](https://developers.google.com/identity/protocols/oauth2/service-account).
+In this Component you can load an Excel file and define the cell range like in Excel.
+For example: (A4:N28) and your Output is a Data table.
 
 ### Parameters
 
-| Input | Type | Description |
-|-------|------|-------------|
-| json_string | SecretStrInput | JSON string containing OAuth 2.0 access token information for service account access |
-| label_ids | MessageTextInput | Comma-separated list of label IDs to filter emails |
-| max_results | MessageTextInput | Maximum number of emails to load |
+#### Inputs
+
+| Name | Display Name | Info                    |
+|------|--------------|-------------------------|
+| path | Path         | Provide an Excel file   |
+| cells | Cell Range  | Provide the cell range  |
+| sheet_name | Sheet Name | The sheet name where your table is |
+
+#### Outputs
 
 | Output | Type | Description |
 |--------|------|-------------|
-| data | Data | Loaded email data |
+| data | Data | Loaded table from the file|
 
-## Google Drive Loader
+## Message to Data
 
-This component loads documents from Google Drive using provided credentials and a single document ID.
-
-For more on creating a service account JSON, see [Service Account JSON](https://developers.google.com/identity/protocols/oauth2/service-account).
+This component converts a Message object to a Data object. If the Message is a Python dictionary, the dictionary is automatically converted to a Data table.
 
 ### Parameters
 
-| Input | Type | Description |
-|-------|------|-------------|
-| json_string | SecretStrInput | JSON string containing OAuth 2.0 access token information for service account access |
-| document_id | MessageTextInput | Single Google Drive document ID |
+#### Inputs
 
-| Output | Type | Description |
-|--------|------|-------------|
-| docs | Data | Loaded document data |
+| Name | Type   | Description                                   |
+|------|--------|-----------------------------------------------|
+| message | Message | A Message object |
 
-## Google Drive Search
+#### Outputs
 
-This component searches Google Drive files using provided credentials and query parameters.
-
-For more on creating a service account JSON, see [Service Account JSON](https://developers.google.com/identity/protocols/oauth2/service-account).
-
-### Parameters
-
-| Input | Type | Description |
-|-------|------|-------------|
-| token_string | SecretStrInput | JSON string containing OAuth 2.0 access token information for service account access |
-| query_item | DropdownInput | The field to query |
-| valid_operator | DropdownInput | Operator to use in the query |
-| search_term | MessageTextInput | The value to search for in the specified query item |
-| query_string | MessageTextInput | The query string used for searching (can be edited manually) |
-
-| Output | Type | Description |
-|--------|------|-------------|
-| doc_urls | List[str] | URLs of the found documents |
-| doc_ids | List[str] | IDs of the found documents |
-| doc_titles | List[str] | Titles of the found documents |
-| Data | Data | Document titles and URLs in a structured format |
+| Name        | Type | Description                            |
+|-------------|------|----------------------------------------|
+| data | Data | The Data object |
 
 ## Webhook Input
 
