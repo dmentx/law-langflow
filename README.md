@@ -7,7 +7,7 @@
 </p>
 
 <p align="center" style="font-size: 12px;">
-    <a href="https://docs.langflow.org" style="text-decoration: underline;">Docs</a> 
+    <a href="https://dmentx.github.io/law-langflow/" style="text-decoration: underline;">Docs</a> 
     
 </p>
 
