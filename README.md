@@ -19,10 +19,10 @@
 2. **Visual IDE** for drag-and-drop building and testing of workflows.
 3. **Playground** to immediately test and iterate workflows with step-by-step control.
 4. **Multi-agent** orchestration and conversation management and retrieval.
-5. **Free cloud service** to get started in minutes with no setup.
-6. **Publish as an API** or export as a Python application.
-7. **Observability** with LangSmith, LangFuse, or LangWatch integration.
-8.  **Ecosystem integrations** as reusable components for any model, API or database.
+5. **Publish as an API** or export as a Python application.
+6. **Observability** with LangSmith, LangFuse, or LangWatch integration.
+7.  **Ecosystem integrations** as reusable components for any model, API or database.
+8.  **Optimised for Legal Tasks** with tailored features for legal workflows. 
 
 ![Integrations](https://github.com/user-attachments/assets/e9c96dc4-47bf-48ab-ad58-e01e038f25e8)
 
