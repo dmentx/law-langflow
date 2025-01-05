@@ -35,7 +35,6 @@ This article demonstrates how to use Langflow's prompt tools to issue basic prom
 1. From the Langflow dashboard, click **New Project**. 
 
 
-![](./1835734464.png)
 
 
 2. Select **Basic Prompting**.

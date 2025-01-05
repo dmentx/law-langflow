@@ -14,7 +14,7 @@ slug: /365085a8-a90a-43f9-a779-f8769ec7eca1
 My Collection is a space in Langflow where users can manage, organize, and access their flows and components. Flows and components are displayed as individual cards that provide relevant information.
 
 
-![](./1289235516.png)
+![](./started.png)
 
 - **Folders**: Users can organize their projects into folders. Default folders include "My Projects" and the ability to create new folders. Hover over a folder to access options to download or delete it.
 - **Search Bar** Enables users to quickly search through their flows and components.
@@ -73,7 +73,6 @@ Click the **Trash** icon to delete a folder.
 3. **Move Files:**
 	- Drag and drop files into the corresponding folders and subfolders to keep everything organized.
 
-	![](./711485342.gif)
 
 
 ### Best Practices for Organizing Folders {#66f23f8e129a48598a7bb4565a508360}

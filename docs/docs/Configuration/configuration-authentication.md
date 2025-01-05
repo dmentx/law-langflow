@@ -6,12 +6,6 @@ slug: /configuration-authentication
 
 
 
-:::info
-
-This page may contain outdated information. It will be updated as soon as possible.
-
-:::
-
 
 
 
@@ -39,7 +33,7 @@ All of these variables can be passed to the CLI command _`langflow run`_ through
 
 
 ```shell
-langflow run --env-file .env
+langflow-law run --env-file .env
 
 ```
 
@@ -83,7 +77,7 @@ export LANGFLOW_SUPERUSER_PASSWORD=securepassword
 ```
 
 
-You can also use the CLI command `langflow superuser` to set up a superuser interactively.
+You can also use the CLI command `langflow-law superuser` to set up a superuser interactively.
 
 
 ### _`LANGFLOW_SECRET_KEY`_ {#977aea34e6174c58bd76107990d62a1f}
@@ -111,7 +105,7 @@ Langflow provides a command-line utility for managing superusers:
 
 
 ```shell
-langflow superuser
+langflow-law superuser
 ```
 
 
@@ -124,7 +118,7 @@ This command prompts you to enter the username and password for the superuser, u
 With _`LANGFLOW_AUTO_LOGIN`_ set to _`False`_, Langflow requires users to sign up before they can log in. The sign-up page is the default landing page when a user visits Langflow for the first time.
 
 
-![](./1009571828.png)
+![](./signIn.png)
 
 
 ## Profile settings {#dd5926e12471448d99bd6849d2149dc8}

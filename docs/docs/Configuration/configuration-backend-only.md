@@ -6,11 +6,7 @@ slug: /configuration-backend-only
 
 
 
-:::info
 
-This page may contain outdated information. It will be updated as soon as possible.
-
-:::
 
 
 
@@ -18,7 +14,7 @@ This page may contain outdated information. It will be updated as soon as possib
 You can run Langflow in `--backend-only` mode to expose your Langflow app as an API, without running the frontend UI.
 
 
-Start langflow in backend-only mode with `python3 -m langflow run --backend-only`.
+Start langflow in backend-only mode with `python3 -m langflow-law run --backend-only`.
 
 
 The terminal prints `Welcome to ⛓ Langflow`, and a blank window opens at `http://127.0.0.1:7864/all`.
@@ -60,7 +56,7 @@ Note the flow ID of `ef7e0554-69e5-4e3e-ab29-ee83bcd8d9ef`. You can find this ID
 ## Start Langflow in backend-only mode {#f0ba018daf3041c39c0d226dadf78d35}
 
 1. Stop Langflow with Ctrl+C.
-2. Start langflow in backend-only mode with `python3 -m langflow run --backend-only`.
+2. Start langflow in backend-only mode with `python3 -m langflow-law run --backend-only`.
 The terminal prints `Welcome to ⛓ Langflow`, and a blank window opens at `http://127.0.0.1:7864/all`.
 Langflow will now serve requests to its API.
 3. Run the curl code you copied from the UI.
@@ -150,5 +146,4 @@ The result is similar to the curl call:
 Your Python app POSTs to your Langflow server, and the server runs the flow and returns the result.
 
 
-See [API](https://www.notion.so/administration/api) for more ways to interact with your headless Langflow server.
 

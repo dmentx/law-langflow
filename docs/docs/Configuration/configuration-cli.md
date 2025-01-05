@@ -4,33 +4,22 @@ sidebar_position: 2
 slug: /configuration-cli
 ---
 
-:::info
 
-This page may contain outdated information. It will be updated as soon as possible.
-
-:::
 
 Langflow's Command Line Interface (CLI) is a powerful tool that allows you to interact with the Langflow server from the command line. The CLI provides a wide range of commands to help you shape Langflow to your needs.
 
-The available commands are below. Navigate to their individual sections of this page to see the parameters.
 
-- [langflow](/configuration-cli)
-- [langflow api-key](/configuration-cli)
-- [langflow copy-db](/configuration-cli)
-- [langflow migration](/configuration-cli)
-- [langflow run](/configuration-cli)
-- [langflow superuser](/configuration-cli)
 
 ## Overview {#c50e5530289349cf8ed7bee22ba2211a}
 
 Running the CLI without any arguments displays a list of available options and commands.
 
 ```shell
-langflow
+langflow-law
 # or
-langflow --help
+langflow-law --help
 # or
-python -m langflow
+python -m langflow-law
 
 ```
 
@@ -39,7 +28,7 @@ python -m langflow
 | `api-key`   | Creates an API key for the default superuser if AUTO_LOGIN is enabled. |
 | `copy-db`   | Copy the database files to the current directory (`which langflow`).   |
 | `migration` | Run or test migrations.                                                |
-| `run`       | Run the Langflow.                                                      |
+| `run`       | Run the Langflow Law.                                                      |
 | `superuser` | Create a superuser.                                                    |
 
 ### Options {#8a3b5b7ed55b4774ad6d533bb337ef47}
@@ -50,14 +39,14 @@ python -m langflow
 | `--show-completion`    | Show completion for the current shell, to copy it or customize the installation. |
 | `--help`               | Show this message and exit.                                                      |
 
-## langflow api-key {#dbfc8c4c83474b83a38bdc7471bccf41}
+## langflow-law api-key {#dbfc8c4c83474b83a38bdc7471bccf41}
 
 Run the `api-key` command to create an API key for the default superuser if `LANGFLOW_AUTO_LOGIN` is set to `True`.
 
 ```shell
-langflow api-key
+langflow-law api-key
 # or
-python -m langflow api-key
+python -m langflow-law api-key
 ╭─────────────────────────────────────────────────────────────────────╮
 │ API Key Created Successfully:                                       │
 │                                                                     │
@@ -78,7 +67,7 @@ python -m langflow api-key
 | --log-level | TEXT | Logging level. [env var: LANGFLOW_LOG_LEVEL] [default: error] |
 | --help      |      | Show this message and exit.                                   |
 
-## langflow copy-db {#729a13f4847545e5973d8f9c20f8833d}
+## langflow-law copy-db {#729a13f4847545e5973d8f9c20f8833d}
 
 Run the `copy-db` command to copy the cached `langflow.db` and `langflow-pre.db` database files to the current directory.
 
@@ -88,14 +77,14 @@ If the files exist in the cache directory, they will be copied to the same direc
 
 None.
 
-## langflow migration {#7027c1925a444119a7a8ea2bff4bd16d}
+## langflow-law migration {#7027c1925a444119a7a8ea2bff4bd16d}
 
 Run or test migrations with the Alembic database tool.
 
 ```shell
-langflow migration
+langflow-law migration
 # or
-python -m langflow migration
+python -m langflow-law migration
 
 ```
 
@@ -107,14 +96,14 @@ python -m langflow migration
 | `--fix, --no-fix`   | Fix migrations. This is a destructive operation, and should only be used if you know what you are doing. [default: no-fix] |
 | `--help`            | Show this message and exit.                                                                                                |
 
-## langflow run {#fe050aa659cb4d33a560b859d54c94ea}
+## langflow-law run {#fe050aa659cb4d33a560b859d54c94ea}
 
 Run Langflow.
 
 ```shell
-langflow run
+langflow-law run
 # or
-python -m langflow run
+python -m langflow-law run
 
 ```
 
@@ -148,14 +137,14 @@ You can configure many of the CLI options using environment variables. These can
 
 A sample `.env` file named `.env.example` is included with the project. Copy this file to a new file named `.env` and replace the example values with your actual settings. If you're setting values in both your OS and the `.env` file, the `.env` settings will take precedence.
 
-## langflow superuser {#5944233ce0c942878e928e1f2945d717}
+## langflow-law superuser {#5944233ce0c942878e928e1f2945d717}
 
-Create a superuser for Langflow.
+Create a superuser for Langflow Law.
 
 ```shell
-langflow superuser
+langflow-law superuser
 # or
-python -m langflow superuser
+python -m langflow-law superuser
 ```
 
 ### Options {#f333c5635ead4c3d95985467bb08cc8f}

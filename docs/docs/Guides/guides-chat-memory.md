@@ -15,10 +15,7 @@ In any project, as long as there are [**Chat**](/components-io) being used, memo
 To see and access this history of messages, Langflow features a component called **Chat Memory**. It retrieves previous messages and outputs them in structured format or parsed.
 
 
-![](./403427222.png)
 
-
-To learn the basics about memory in Langflow, check out the [Memory Chatbot ](/starter-projects-memory-chatbot)starter example.
 
 
 Memories can be visualized and managed directly from the **Playground**. You can edit and remove previous messages to inspect and validate the AI’s response behavior. You can remove or edit previous messages to get your models acting just right.
