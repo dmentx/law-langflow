@@ -95,7 +95,7 @@ const config = {
       },
       navbar: {
         hideOnScroll: true,
-        title: "Langflow",
+        title: "Langflow Law",
         logo: {
           alt: "Langflow",
           src: "img/chain.png",
@@ -104,22 +104,8 @@ const config = {
           // right
           {
             position: "right",
-            href: "https://github.com/langflow-ai/langflow",
+            href: "https://github.com/dmentx/law-langflow",
             className: "header-github-link",
-            target: "_blank",
-            rel: null,
-          },
-          {
-            position: "right",
-            href: "https://twitter.com/langflow_ai",
-            className: "header-twitter-link",
-            target: "_blank",
-            rel: null,
-          },
-          {
-            position: "right",
-            href: "https://discord.gg/EqksyE2EX9",
-            className: "header-discord-link",
             target: "_blank",
             rel: null,
           },

@@ -129,7 +129,7 @@ via a pip installation, you can set these values by providing Langflow with a .e
 environment variables, using the following command:
 
 ```bash
-langflow run --env-file .env
+langflow-law run --env-file .env
 ```
 
 If you’re running Langflow in a Docker container, you can set these values by providing Langflow with:

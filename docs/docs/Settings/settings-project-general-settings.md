@@ -6,12 +6,6 @@ slug: /settings-project-general-settings
 
 
 
-:::info
-
-This page may contain outdated information. It will be updated as soon as possible.
-
-:::
-
 
 
 
@@ -47,10 +41,7 @@ Select your **Profile Picture** &gt; **Settings** to view your **General Setting
 Select a profile picture.
 
 
-### Store API Key {#6a12756beb0b42fd84bdf5ab5f10fffb}
 
-
-Add your **Langflow Store** API key. To get a Store key, go to the [Langflow store](https://www.langflow.store/).
 
 
 ### Global Variables {#12aa7f28060447babc987bdf57fc065e}
