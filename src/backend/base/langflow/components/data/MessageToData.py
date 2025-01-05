@@ -27,16 +27,15 @@ class MessageToDataComponent(Component):
     def convert_message_to_data(self) -> Data:
         message: Message = self.message
         if isinstance(message, Message):
-            # Versuche, message.text in ein Dictionary zu konvertieren
             if isinstance(message.text, str):
                 try:
                     parsed_dict = ast.literal_eval(message.text)
                     if isinstance(parsed_dict, dict):
                         return Data(data=parsed_dict)
                 except (ValueError, SyntaxError) as exc:
-                    logger.opt(exception=True).debug(f"Fehler beim Konvertieren von message.text zu einem Dictionary: {exc}")
+                    logger.opt(exception=True).debug(f"Error Conversion Failed: {exc}")
             
-            # Fallback, falls Konvertierung nicht möglich war
+            # Fallback
             return Data(data=self.message.data)
 
         msg = "Error converting Message to Data: Input must be a Message object"

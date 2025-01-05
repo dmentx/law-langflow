@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "langflow-base"
-version = "0.0.96"
+name = "langflow-law-base"
+version = "0.0.97"
 description = "A Python package with a built-in web application"
 authors = ["Langflow <contact@langflow.org>"]
 maintainers = [
@@ -19,6 +19,7 @@ readme = "README.md"
 keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
 packages = [{ include = "langflow" }, { include = "langflow/py.typed" }]
 include = ["pyproject.toml", "README.md", "langflow/**/*"]
+exclude = ["langflow/langflow.db"]
 documentation = "https://docs.langflow.org"
 
 
@@ -147,3 +148,4 @@ line-length = 120
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+

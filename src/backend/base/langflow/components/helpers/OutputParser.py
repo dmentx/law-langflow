@@ -26,21 +26,10 @@ class OutputParserComponent(Component):
             name="format_instructions",
             info="Pass to a prompt template to include formatting instructions for LLM responses.",
             method="format_instructions",
-        ),
-        Output(display_name="Output Parser", name="output_parser", method="build_parser"),
+        )
     ]
 
-    def build_parser(self) -> OutputParser:
-        if self.parser_type == "CSV":
-            return CommaSeparatedListOutputParser()
-        elif self.parser_type == "JSON":
-            return JsonOutputParser()
-        elif self.parser_type == "XML":
-            return XMLOutputParser()
-        elif self.parser_type == "NUMBER":
-            return NumberedListOutputParser()
-        msg = "Unsupported or missing parser"
-        raise ValueError(msg)
+
 
     def format_instructions(self) -> Message:
         if self.parser_type == "CSV":

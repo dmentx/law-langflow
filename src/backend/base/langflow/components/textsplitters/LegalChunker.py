@@ -27,12 +27,6 @@ class LegalChunkerComponent(Component):
             input_types=["LanguageModel"],
             required=True
         ),
-        # HandleInput(
-        #     name="azure_embedding",
-        #     display_name = "Azure Embedding Model",
-        #     input_types=["Embeddings"],
-        #     required=True
-        # )
     ]
     
     outputs = [

@@ -58,7 +58,7 @@ class PdfOutputComponent(Component):
             pdf.output(path)
             file_url = upload_blob_file(path,".pdf")
             os.remove(path)
-            return Message(text=f"[Download Excel]({str(file_url)})")
+            return Message(text=f"[Download PDF]({str(file_url)})")
         
         
         

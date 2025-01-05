@@ -29,20 +29,20 @@ class MergeData2Component(Component):
             return []
         
         try:
-            # Erstellen eines DataFrames aus den Data-Objekten
+            
             df = pd.DataFrame([data.data for data in data_list])
             
             rows = len(df)
-            for idx, col in enumerate(df.columns[1:], start=1):  # Erste Spalte bleibt unverändert
+            for idx, col in enumerate(df.columns[1:], start=1):  # First column remains unchanged
                 shift_count = idx * (rows // len(df.columns))
                 df[col] = df[col].shift(-shift_count).fillna("")
                 
-            # Konvertiere leere Strings in NaN, dann entferne Zeilen, die komplett leer sind
+            # Convert empty strings to NaN, then remove lines that are completely empty
             df.replace("", np.nan, inplace=True)
             df_cleaned = df.dropna(how="all").reset_index(drop=True)
             
             
-            # Konvertieren des bereinigten DataFrames in list[Data]
+            
             merged_data_list = [Data(data=row) for row in df_cleaned.to_dict(orient='records')]
         
         except Exception:

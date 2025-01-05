@@ -6,11 +6,7 @@ slug: /settings-global-variables
 
 import ReactPlayer from "react-player";
 
-:::info
 
-This page may contain outdated information. It will be updated as soon as possible.
-
-:::
 
 
 

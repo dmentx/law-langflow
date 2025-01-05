@@ -2,27 +2,7 @@
 
 Tool components are used to interact with external services, APIs, and tools. They can be used to search the web, query databases, and perform other tasks.
 
-## Bing Search API
 
-This component allows you to call the Bing Search API.
-
-### Parameters
-
-#### Inputs
-
-| Name                   | Type         | Description                           |
-|------------------------|--------------|---------------------------------------|
-| bing_subscription_key   | SecretString | Bing API subscription key             |
-| input_value            | String       | Search query input                    |
-| bing_search_url        | String       | Custom Bing Search URL (optional)    |
-| k                      | Integer      | Number of search results to return    |
-
-#### Outputs
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| results | List[Data]| List of search results               |
-| tool    | Tool      | Bing Search tool for use in LangChain|
 
 ## Calculator Tool
 
@@ -44,71 +24,7 @@ This component creates a tool for performing basic arithmetic operations on a gi
 
 This component allows you to evaluate basic arithmetic expressions. It supports addition, subtraction, multiplication, division, and exponentiation. The tool uses a secure evaluation method that prevents the execution of arbitrary Python code.
 
-## Glean Search API
 
-This component allows you to call the Glean Search API.
-
-### Parameters
-
-#### Inputs
-
-| Name                   | Type         | Description                           |
-|------------------------|--------------|---------------------------------------|
-| glean_api_url          | String       | URL of the Glean API                 |
-| glean_access_token      | SecretString | Access token for Glean API authentication |
-| query                  | String       | Search query input                    |
-| page_size              | Integer      | Number of results per page (default: 10) |
-| request_options        | Dict         | Additional options for the API request (optional) |
-
-#### Outputs
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| results | List[Data]| List of search results               |
-| tool    | Tool      | Glean Search tool for use in LangChain|
-
-## Google Search API
-
-This component allows you to call the Google Search API.
-
-### Parameters
-
-#### Inputs
-
-| Name                   | Type         | Description                           |
-|------------------------|--------------|---------------------------------------|
-| google_api_key         | SecretString | Google API key for authentication     |
-| google_cse_id          | SecretString | Google Custom Search Engine ID        |
-| input_value            | String       | Search query input                    |
-| k                      | Integer      | Number of search results to return    |
-
-#### Outputs
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| results | List[Data]| List of search results               |
-| tool    | Tool      | Google Search tool for use in LangChain|
-
-## Google Serper API
-
-This component allows you to call the Serper.dev Google Search API.
-
-### Parameters
-
-#### Inputs
-
-| Name                   | Type         | Description                           |
-|------------------------|--------------|---------------------------------------|
-| serper_api_key         | SecretString | API key for Serper.dev authentication  |
-| input_value            | String       | Search query input                    |
-| k                      | Integer      | Number of search results to return    |
-
-#### Outputs
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| results | List[Data]| List of search results               |
-| tool    | Tool      | Google Serper search tool for use in LangChain|
 
 ## Python Code Structured Tool
 
@@ -175,71 +91,7 @@ This component creates a tool for interacting with a retriever in LangChain.
 |------|------|--------------------------------------------|
 | tool | Tool | Retriever tool for use in LangChain        |
 
-## SearXNG Search Tool
 
-This component creates a tool for searching using SearXNG, a metasearch engine.
-
-### Parameters
-
-#### Inputs
-
-| Name        | Type         | Description                           |
-|-------------|--------------|---------------------------------------|
-| url         | String       | The URL of the SearXNG instance       |
-| max_results | Integer      | Maximum number of results to return   |
-| categories  | List[String] | Categories to search in               |
-| language    | String       | Language for the search results       |
-
-#### Outputs
-
-| Name        | Type | Description                                |
-|-------------|------|--------------------------------------------|
-| result_tool | Tool | SearXNG search tool for use in LangChain   |
-
-## Search API
-
-This component calls the `searchapi.io` API. It can be used to search the web for information.
-
-For more information, see the [SearchAPI documentation](https://www.searchapi.io/docs/google).
-
-### Parameters
-
-#### Inputs
-
-| Name           | Display Name       | Info                                                |
-|----------------|---------------------|-----------------------------------------------------|
-| engine         | Engine              | The search engine to use (default: "google")        |
-| api_key        | SearchAPI API Key   | The API key for authenticating with SearchAPI       |
-| input_value    | Input               | The search query or input for the API call          |
-| search_params  | Search parameters   | Additional parameters for customizing the search    |
-
-#### Outputs
-
-| Name | Display Name    | Info                                                 |
-|------|-----------------|------------------------------------------------------|
-| data | Search Results  | List of Data objects containing search results       |
-| tool | Search API Tool | A Tool object for use in LangChain workflows         |
-
-## Serp Search API
-
-This component creates a tool for searching using the Serp API.
-
-### Parameters
-
-#### Inputs
-
-| Name             | Type         | Description                                 |
-|------------------|--------------|---------------------------------------------|
-| serpapi_api_key  | SecretString | API key for Serp API authentication         |
-| input_value      | String       | Search query input                          |
-| search_params    | Dict         | Additional search parameters (optional)     |
-
-#### Outputs
-
-| Name    | Type      | Description                                 |
-|---------|-----------|---------------------------------------------|
-| results | List[Data]| List of search results                      |
-| tool    | Tool      | Serp API search tool for use in LangChain   |
 
 ## Wikipedia API
 
@@ -264,36 +116,3 @@ This component creates a tool for searching and retrieving information from Wiki
 | results | List[Data]| List of Wikipedia search results      |
 | tool    | Tool      | Wikipedia search tool for use in LangChain |
 
-## Wolfram Alpha API
-
-This component creates a tool for querying the Wolfram Alpha API.
-
-### Parameters
-
-#### Inputs
-
-| Name        | Type         | Description                    |
-|-------------|--------------|--------------------------------|
-| input_value | String       | Query input for Wolfram Alpha  |
-| app_id      | SecretString | Wolfram Alpha API App ID       |
-
-#### Outputs
-
-| Name    | Type      | Description                                    |
-|---------|-----------|------------------------------------------------|
-| results | List[Data]| List containing the Wolfram Alpha API response |
-| tool    | Tool      | Wolfram Alpha API tool for use in LangChain    |
-
-## Yahoo Finance News Tool
-
-This component creates a tool for retrieving news from Yahoo Finance.
-
-### Parameters
-
-This component does not have any input parameters.
-
-#### Outputs
-
-| Name | Type | Description                                  |
-|------|------|----------------------------------------------|
-| tool | Tool | Yahoo Finance News tool for use in LangChain |

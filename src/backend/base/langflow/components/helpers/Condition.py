@@ -15,7 +15,7 @@ from langflow.api.log_router import logs
 from langflow.custom import Component
 from langflow.custom.eval import eval_custom_component_code
 from langflow.inputs import StrInput
-from langflow.inputs.inputs import DropdownInput, MessageInput, MessageTextInput
+from langflow.inputs.inputs import DropdownInput, HandleInput, MessageInput, MessageTextInput
 from langflow.schema.message import Message
 from langflow.template import Output
 from sympy import false
@@ -72,6 +72,12 @@ class ConditionComponent(Component):
             display_name= "Custom Prompt Condition",
             info= "Optional: Add custom condition."
         ),
+        HandleInput(
+            name="llm",
+            display_name="Language Model",
+            input_types=["LanguageModel"],
+            required=True
+        ),
         MessageInput(
             name="message",
             display_name="Message",
@@ -88,10 +94,7 @@ class ConditionComponent(Component):
     def num_condition(a,b, condition):
         return condition(a,b)
     
-    @staticmethod
-    def convert_dataList_to_string(data_list:list[Data]):
-        data_strings = [str(data.get_text) for data in data_list]
-        return " + ".join(data_strings)
+
     
     
 
@@ -119,15 +122,8 @@ class ConditionComponent(Component):
         else:
             return self.evaluate_custom_prompt_condition(input_text, text_compare, custom_prompt_condition)
     
-    def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition) -> bool:
-        if(isinstance(custom_prompt_condition,list)):
-            custom_prompt_condition = self.convert_dataList_to_string(custom_prompt_condition)
-        model = AzureChatOpenAI(
-            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
-            azure_deployment=os.environ["AZURE_OPENAI_API_DEPLOYMENT_NAME"],
-            api_version=os.environ["AZURE_OPENAI_API_VERSION"],
-            )
-        
+    def evaluate_custom_prompt_condition(self, input_text: str, text_compare: str, custom_prompt_condition:str) -> bool:
+        model = self.llm
         system_template = "You get two inputs and a condition and check whether the condition is true or false. Answer with YES or NO"
         human_template = "Input 1: {input_text}. Condition: {custom_prompt_condition}. Input 2: {text_compare}"
         prompt_template = ChatPromptTemplate.from_messages(

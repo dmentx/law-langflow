@@ -66,7 +66,6 @@ class LoopComponent(Component):
             return rList
         else:
             rList:list[Data] = []
-            print("TEST")
             llm_model = self.llm
             system_template = "You are an experienced lawyer from Osborne Clarke (OC)."
             human_template = self.prompt

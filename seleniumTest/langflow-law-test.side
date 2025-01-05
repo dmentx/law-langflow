@@ -1,0 +1,116 @@
+{
+  "id": "40bf5d22-7911-4187-ad09-6ea18eaa610d",
+  "version": "2.0",
+  "name": "langflow-law-test",
+  "url": "http://127.0.0.1:7860/all",
+  "tests": [{
+    "id": "7a4134f0-2469-4105-b970-449ace94c201",
+    "name": "Test1 Flow",
+    "commands": [{
+      "id": "30139548-3df2-428f-8316-9fb58ae82098",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:7860/all",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8270d503-89d8-409f-8915-3606358e2995",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1485x792",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a30b92e2-5dbf-475c-8ec2-1f9e2faa4afa",
+      "comment": "",
+      "command": "click",
+      "target": "css=form:nth-child(2) .font-semibold > .w-full",
+      "targets": [
+        ["css=form:nth-child(2) .font-semibold > .w-full", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div[3]/div/div[2]/div[2]/div/div/div/form[2]/div/div/div/div/h3/div", "xpath:idRelative"],
+        ["xpath=//form[2]/div/div/div/div/h3/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c0a520d3-fc10-4f7e-87fe-d7172db1965a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-flow__node:nth-child(29) polygon",
+      "targets": [
+        ["css=.react-flow__node:nth-child(29) polygon", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "c65bff23-5a35-4a21-b1f3-d82edf7fe433",
+      "comment": "",
+      "command": "click",
+      "target": "css=.success-alert > .flex",
+      "targets": [
+        ["css=.success-alert > .flex", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div/div", "xpath:idRelative"],
+        ["xpath=//body/div/div/div[2]/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "1fc1996b-983a-433a-81ad-ed3c713f606d",
+    "name": "Fluggastrechte Flow",
+    "commands": [{
+      "id": "f561212c-8f27-4b8f-8aca-26792860f1ee",
+      "comment": "",
+      "command": "open",
+      "target": "http://127.0.0.1:7860/all",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "506b86dc-10cd-4bee-a957-bfa6ed4a1150",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1485x792",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "815836fe-ee51-48f8-91a3-b023f85bafac",
+      "comment": "",
+      "command": "click",
+      "target": "css=form:nth-child(2) .font-semibold > .w-full",
+      "targets": [
+        ["css=form:nth-child(2) .font-semibold > .w-full", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div[3]/div/div[2]/div[2]/div/div/div/form[2]/div/div/div/div/h3/div", "xpath:idRelative"],
+        ["xpath=//form[2]/div/div/div/div/h3/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bac24906-0fe0-46ea-a555-11534a41a855",
+      "comment": "",
+      "command": "click",
+      "target": "css=.react-flow__node:nth-child(17) polygon",
+      "targets": [
+        ["css=.react-flow__node:nth-child(17) polygon", "css:finder"]
+      ],
+      "value": ""
+    }, {
+      "id": "88713096-4367-4a60-9616-a93918d4bbc0",
+      "comment": "",
+      "command": "click",
+      "target": "css=.success-alert-message",
+      "targets": [
+        ["css=.success-alert-message", "css:finder"],
+        ["xpath=//div[@id='root']/div/div[2]/div/div/div/div/div[2]/p", "xpath:idRelative"],
+        ["xpath=//div[2]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Chat Output built successfully')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "a1729ba8-865a-4a05-a57b-5f7319619975",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["7a4134f0-2469-4105-b970-449ace94c201"]
+  }],
+  "urls": ["http://127.0.0.1:7860/all"],
+  "plugins": []
+}
