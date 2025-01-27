@@ -32,7 +32,6 @@ class MergeDataComponent(Component):
             return []  
         
         try:
-            # Merge all data dictionaries, filling missing keys with empty strings
             merged_data_dicts = pd.DataFrame([data.data for data in data_list]).fillna("").to_dict(orient="records")
             merged_data_list = [Data(data=merged_dict) for merged_dict in merged_data_dicts]
         except Exception:

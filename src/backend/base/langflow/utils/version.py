@@ -30,6 +30,7 @@ def _get_version_info():
         ("langflow-base", "Langflow Base"),
         ("langflow-nightly", "Langflow Nightly"),
         ("langflow-base-nightly", "Langflow Base Nightly"),
+        ("langflow-law-base", "Langflow Base"),
     ]
     __version__ = None
     for pkg_name, display_name in package_options:

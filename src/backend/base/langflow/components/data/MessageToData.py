@@ -1,5 +1,5 @@
 from loguru import logger
-import ast  # Für sichere Auswertung von Literalen
+import ast  
 from langflow.custom import Component
 from langflow.io import MessageInput, Output
 from langflow.schema import Data

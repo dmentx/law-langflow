@@ -5499,13 +5499,13 @@ six = "*"
 
 [[package]]
 name = "langflow-law-base"
-version = "0.0.97"
+version = "0.0.98"
 description = "A Python package with a built-in web application"
 optional = false
 python-versions = "<3.13,>=3.10"
 files = [
-    {file = "langflow_law_base-0.0.97-py3-none-any.whl", hash = "sha256:8d442707a553609e687da65c6a61aa83899c3768b37a5545202f030cd75ced42"},
-    {file = "langflow_law_base-0.0.97.tar.gz", hash = "sha256:f6f9bdfbcbb2a280a867a2d88a4723648ba0be70c7dbac6ac268e95fc6248595"},
+    {file = "langflow_law_base-0.0.98-py3-none-any.whl", hash = "sha256:b8410634269d06e3323b1f4fcd6f608df2244a4635425e3799efd5d2b6121dab"},
+    {file = "langflow_law_base-0.0.98.tar.gz", hash = "sha256:bdf5d8b0a687307ab6c407695843ad47208c1ee3b33baeea3fd9eb649bd97489"},
 ]
 
 [package.dependencies]
@@ -13026,4 +13026,4 @@ local = ["ctransformers", "llama-cpp-python", "sentence-transformers"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "62a3c11645c206dede222578cf42553f58124f3afe6ffffb39084f673ee1de03"
+content-hash = "1281da9a761740c2687ede4ab8a30a8c0ae987c3680176f0565c2212f6545e94"
